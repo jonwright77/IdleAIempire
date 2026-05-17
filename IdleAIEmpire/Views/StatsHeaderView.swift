@@ -19,9 +19,18 @@ struct StatsHeaderView: View {
             Text("\(vm.state.effectiveComputePerSecond.compactFormatted) / sec")
                 .font(.subheadline)
                 .foregroundColor(.neonCyan.opacity(0.6))
+
+            if vm.state.singularityShards > 0 {
+                HStack(spacing: 6) {
+                    Text("◈ \(vm.state.singularityShards) SHARDS")
+                    Text("×\(String(format: "%.2f", vm.state.shardMultiplier))")
+                }
+                .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                .foregroundColor(.neonPurple.opacity(0.8))
+            }
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 28)
+        .padding(.vertical, 20)
         .background(Color.bgCard)
     }
 }

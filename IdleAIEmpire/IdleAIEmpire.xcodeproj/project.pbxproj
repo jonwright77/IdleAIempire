@@ -23,6 +23,9 @@
 		F089FF7450C94C409A442960 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C2E6D4DB5241A29C08A8B3 /* HapticManager.swift */; };
 		BA97BB6C3DD94BB2BF8B3164 /* ResearchNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E0CFA9F3EB456A83B29A67 /* ResearchNode.swift */; };
 		3BD10A5EA8794B628EFDE496 /* ResearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E452020B56814AAF885733DD /* ResearchView.swift */; };
+		03FE2B225D294B2D90AA52B2 /* SingularityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFE17D672904740BEF8F404 /* SingularityView.swift */; };
+		1D909053CEF84A68AB3F908A /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4758FC6E7FD447B9A8A08C8C /* Achievement.swift */; };
+		F254D54ADA5C400FA8192F55 /* AchievementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E0CA8062B49268F8F85BE /* AchievementsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +65,9 @@
 		C0C2E6D4DB5241A29C08A8B3 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		23E0CFA9F3EB456A83B29A67 /* ResearchNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchNode.swift; sourceTree = "<group>"; };
 		E452020B56814AAF885733DD /* ResearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchView.swift; sourceTree = "<group>"; };
+		1EFE17D672904740BEF8F404 /* SingularityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingularityView.swift; sourceTree = "<group>"; };
+		4758FC6E7FD447B9A8A08C8C /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
+		B83E0CA8062B49268F8F85BE /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -146,6 +152,7 @@
 				5CACD8EE2FB9B14800AAA3AD /* GameState.swift */,
 				5CACD8EF2FB9B14800AAA3AD /* Upgrade.swift */,
 				23E0CFA9F3EB456A83B29A67 /* ResearchNode.swift */,
+				4758FC6E7FD447B9A8A08C8C /* Achievement.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -179,6 +186,8 @@
 				5CACD8FB2FB9B14800AAA3AD /* UpgradesListView.swift */,
 				312E99CA3B6644A2B0F73D35 /* OfflineEarningsView.swift */,
 				E452020B56814AAF885733DD /* ResearchView.swift */,
+				1EFE17D672904740BEF8F404 /* SingularityView.swift */,
+				B83E0CA8062B49268F8F85BE /* AchievementsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -343,6 +352,9 @@
 				F089FF7450C94C409A442960 /* HapticManager.swift in Sources */,
 				BA97BB6C3DD94BB2BF8B3164 /* ResearchNode.swift in Sources */,
 				3BD10A5EA8794B628EFDE496 /* ResearchView.swift in Sources */,
+				03FE2B225D294B2D90AA52B2 /* SingularityView.swift in Sources */,
+				1D909053CEF84A68AB3F908A /* Achievement.swift in Sources */,
+				F254D54ADA5C400FA8192F55 /* AchievementsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

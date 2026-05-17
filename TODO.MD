@@ -89,37 +89,37 @@
 
 ---
 
-# Phase 9 — Automation
+# Phase 9 — Automation ✅
 
 The moment the game becomes truly idle. Players should feel their empire running without them.
 
-- [ ] Add Auto-Tapper milestone: unlocked after buying 25 GPUs (generates 1 tap/sec)
-- [ ] Show automation status in the UI (pulsing indicator when active)
-- [ ] Optionally: make Auto-Tapper upgradeable via Research
+- [x] Auto-Tapper unlocked after buying 25 GPUs (adds effectiveComputePerTap/sec to the tick)
+- [x] Pulsing ring around tap button when active
+- [x] "● AUTO" label below button when active
 
 ---
 
-# Phase 10 — Prestige (Singularity)
+# Phase 10 — Prestige (Singularity) ✅
 
 Core replayability. Resets feel like acceleration, not punishment.
 
-- [ ] Unlock Singularity option after reaching a compute threshold (e.g. 1 Trillion)
-- [ ] Reset upgrades and compute on prestige
-- [ ] Award `Singularity Shards` — permanent per-run multiplier (×1.1 per shard)
-- [ ] Show Singularity Shards and current multiplier in Stats header
-- [ ] Add prestige confirmation screen (show what you'll earn and keep)
-- [ ] Balance: first prestige should be reachable in ~30–60 mins of play
+- [x] Unlock Singularity at 1 Trillion compute
+- [x] Reset upgrades and compute; keep research nodes and shards
+- [x] Award 1 Singularity Shard per prestige — multiplier is ×1.1^shards on all compute
+- [x] Show shards and multiplier in Stats header (purple, appears after first prestige)
+- [x] Confirmation sheet: shows earnings, what's kept, what's reset
+- [x] "SINGULARITY READY" banner appears in UI when threshold is met
 
 ---
 
-# Phase 11 — Achievements
+# Phase 11 — Achievements ✅
 
 Milestone markers that reward progress and give players a sense of history.
 
-- [ ] Define ~15 achievements (first GPU, first passive income, first prestige, 1K/1M/1B compute, etc.)
-- [ ] Add `AchievementManager` to track and persist unlocks
-- [ ] Show a toast notification on unlock (brief banner, distinct haptic)
-- [ ] Add Achievements screen accessible from UI
+- [x] 15 achievements: upgrade milestones, compute thresholds (1K→1T), auto-tap, research, prestige
+- [x] Persisted in GameState (Codable), merged on load like upgrades and research
+- [x] Toast banner slides in from top on unlock (3s, success haptic)
+- [x] AWARDS tab added to tab bar with full achievement list (locked shown at 45% opacity)
 
 ---
 
