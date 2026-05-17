@@ -87,6 +87,7 @@ MVVM. `GameViewModel` is the single `ObservableObject`. Views observe it with `@
 - `Upgrade.catalog` defines defaults for new games only; loaded saves use their own array
 - **Never reorder catalog entries** — saved arrays align by index. Always append.
 - `GameState.mergeNewCatalogEntries()` — called in `GameViewModel.init()` before offline earnings
+- `Upgrade.milestones` = `owned / 100`; `milestoneMultiplier` = `pow(5.0, milestones)` — baked into `computePerSecond`. No stored state needed.
 
 **Research**
 - `ResearchNode.catalog` — 10 nodes, linear unlock (node N requires node N-1 unlocked)
@@ -121,7 +122,7 @@ MVVM. `GameViewModel` is the single `ObservableObject`. Views observe it with `@
 **Display**
 - Number display: `Double.compactFormatted` (K/M/B/T/Q) — do NOT use `.formatted()` (iOS 15 conflict)
 - Colors: `Color` extensions in `Utilities/Theme.swift`
-- Neon cyan = upgrades/tap; neon purple = research/prestige
+- Neon cyan = upgrades/tap; neon purple = research/prestige; neon gold = milestone bonuses
 
 ## File map
 ```

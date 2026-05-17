@@ -53,6 +53,7 @@
 - [x] Extend upgrade ladder to 12 tiers (GPU → Planetary Grid)
 - [x] Play-test and verify progression feels rewarding
 - [x] Tune passive income pacing
+- [x] Upgrade milestone bonuses: ×5 per 100 owned (stacking), keeps early upgrades relevant
 
 ---
 

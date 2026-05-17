@@ -39,8 +39,8 @@ They can:
 - Haptic feedback on tap (light) and purchase/unlock (success notification)
 - Passive income ticking 10× per second
 - Auto-Tapper: unlocked at 25 GPUs, generates 1 tap/sec passively
-- 12 buyable upgrades with ×1.15 scaling costs
-- Owned count badge per upgrade
+- 12 buyable upgrades with ×1.15 scaling costs + ×5 milestone bonus per 100 owned
+- Owned count badge + milestone badge (★ ×N) + total CPS + countdown to next milestone per upgrade
 - Auto-save every 30 seconds + on background; offline earnings applied on both cold launch and foreground return
 - Offline earnings popup on return
 - Research system: 10 nodes purchased with Compute, permanent multipliers
@@ -81,6 +81,18 @@ They can:
 
 All 10 nodes unlocked: ×112.5 CPS · ×12 per tap · 16h offline cap.
 
+## Upgrade Milestones
+Every 100 of an upgrade owned applies a ×5 multiplier to that upgrade's CPS (stacking):
+
+| Owned | Multiplier | GPU example |
+|-------|-----------|-------------|
+| 100 | ×5 | 50/s |
+| 200 | ×25 | 500/s |
+| 300 | ×125 | 3,750/s |
+| 400 | ×625 | 25,000/s |
+
+Milestone multipliers stack on top of research and shard multipliers.
+
 ## Prestige
 - Threshold: 1 Trillion Compute
 - Award: 1 Singularity Shard per prestige
@@ -113,7 +125,7 @@ IdleAIEmpire/
     StatsHeaderView.swift         ← Compute counter + effective CPS + shard display
     TapButtonView.swift           ← Animated tap button + floating particle + auto ring
     UpgradesListView.swift        ← Scrollable upgrade list
-    UpgradeRowView.swift          ← Single upgrade row
+    UpgradeRowView.swift          ← Single upgrade row + milestone badge + total CPS
     ResearchView.swift            ← Research node list
     AchievementsView.swift        ← Achievement list + AchievementToast
     SingularityView.swift         ← Prestige confirmation sheet
@@ -150,4 +162,5 @@ IdleAIEmpire/
 - [x] Research system (10 nodes, Compute cost, linear unlock)
 - [x] Prestige / Singularity (shard multiplier, confirmation screen)
 - [x] Achievements (15, toast on unlock, AWARDS screen)
+- [x] Upgrade milestone bonuses (×5 per 100 owned, stacking)
 - [x] PoC play-tested and validated
