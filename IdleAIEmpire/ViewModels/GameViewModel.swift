@@ -3,17 +3,23 @@ import Combine
 
 final class GameViewModel: ObservableObject {
     @Published private(set) var state: GameState
+    @Published private(set) var pendingOfflineEarnings: Double = 0
+    @Published var showOfflinePopup = false
 
     private var tickTimer: AnyCancellable?
     private var saveTimer: AnyCancellable?
 
     private let tickRate: TimeInterval = 0.1
-    private let maxOfflineSeconds: TimeInterval = 3 * 3600  // cap at 3 hours
 
     init() {
         var loaded = PersistenceManager.load() ?? GameState()
-        loaded.compute += Self.offlineEarnings(for: loaded, cap: 3 * 3600)
+        let offline = Self.offlineEarnings(for: loaded, cap: 3 * 3600)
+        loaded.compute += offline
         self.state = loaded
+        if offline >= 1 {
+            self.pendingOfflineEarnings = offline
+            self.showOfflinePopup = true
+        }
         startTimers()
     }
 
@@ -53,7 +59,7 @@ final class GameViewModel: ObservableObject {
             .sink { [weak self] _ in self?.save() }
     }
 
-    private static func offlineEarnings(for state: GameState, cap: TimeInterval) -> Double {
+    private static func offlineEarnings(for state: GameState, cap: TimeInterval = 3 * 3600) -> Double {
         let elapsed = Date().timeIntervalSince(state.lastSaveDate)
         return state.computePerSecond * min(elapsed, cap)
     }

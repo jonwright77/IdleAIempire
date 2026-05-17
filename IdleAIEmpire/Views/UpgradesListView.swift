@@ -18,7 +18,10 @@ struct UpgradesListView: View {
                         UpgradeRowView(
                             upgrade: upgrade,
                             canAfford: vm.state.compute >= upgrade.cost,
-                            onBuy: { vm.buyUpgrade(id: upgrade.id) }
+                            onBuy: {
+                                vm.buyUpgrade(id: upgrade.id)
+                                HapticManager.purchase()
+                            }
                         )
                     }
                 }

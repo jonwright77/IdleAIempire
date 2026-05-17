@@ -30,26 +30,29 @@ They can:
 
 ---
 
-# Current State (PoC — 2026-05-16)
+# Current State (PoC — 2026-05-17)
 
 ## What works
 - Tap button with spring-bounce animation
 - Passive income ticking 10× per second
-- 3 buyable upgrades with scaling costs
+- 6 buyable upgrades with scaling costs
 - Owned count badge per upgrade
 - Auto-save every 30 seconds + on app background
-- Offline earnings calculated on next launch
+- Offline earnings calculated on next launch + popup on return
 - Dark futuristic UI with neon cyan accents
 
 ## Upgrades
 | Name | Base Cost | Cost Multiplier | Compute/s each |
 |------|-----------|-----------------|----------------|
 | GPU | 10 | ×1.15 | 0.1 |
-| Server Rack | 100 | ×1.15 | 0.5 |
-| Data Centre | 1,000 | ×1.15 | 3.0 |
+| Server Rack | 75 | ×1.15 | 0.5 |
+| Data Centre | 500 | ×1.15 | 2.0 |
+| AI Cluster | 4,000 | ×1.15 | 10.0 |
+| Hyperscaler | 40,000 | ×1.15 | 50.0 |
+| Quantum Core | 400,000 | ×1.15 | 250.0 |
 
 ## Not yet built
-Balancing pass, sound, particle effects, offline popup, prestige, research, achievements.
+Sound, particle effects, prestige, research, achievements.
 
 ---
 
@@ -96,8 +99,9 @@ IdleAIEmpire/
 - [x] Offline earnings
 - [x] Save/load system
 - [x] Basic futuristic UI
-- [ ] Balancing pass
-- [ ] Polish pass
+- [x] Balancing pass (upgrade tuning + extended ladder)
+- [x] Offline earnings popup
+- [ ] Play-test and final tune
 
 The goal is to validate:
 > "Is the core gameplay loop satisfying?"

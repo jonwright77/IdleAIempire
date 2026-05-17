@@ -19,6 +19,8 @@
 		5CACD9062FB9B14800AAA3AD /* TapButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CACD8F92FB9B14800AAA3AD /* TapButtonView.swift */; };
 		5CACD9072FB9B14800AAA3AD /* Upgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CACD8EF2FB9B14800AAA3AD /* Upgrade.swift */; };
 		5CACD9082FB9B14800AAA3AD /* UpgradesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CACD8FB2FB9B14800AAA3AD /* UpgradesListView.swift */; };
+		76A20CEFED8B4B74892B141B /* OfflineEarningsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312E99CA3B6644A2B0F73D35 /* OfflineEarningsView.swift */; };
+		F089FF7450C94C409A442960 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C2E6D4DB5241A29C08A8B3 /* HapticManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		5CACD8F92FB9B14800AAA3AD /* TapButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapButtonView.swift; sourceTree = "<group>"; };
 		5CACD8FA2FB9B14800AAA3AD /* UpgradeRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeRowView.swift; sourceTree = "<group>"; };
 		5CACD8FB2FB9B14800AAA3AD /* UpgradesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradesListView.swift; sourceTree = "<group>"; };
+		312E99CA3B6644A2B0F73D35 /* OfflineEarningsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineEarningsView.swift; sourceTree = "<group>"; };
+		C0C2E6D4DB5241A29C08A8B3 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -147,6 +151,7 @@
 				5CACD8F12FB9B14800AAA3AD /* NumberFormatting.swift */,
 				5CACD8F22FB9B14800AAA3AD /* PersistenceManager.swift */,
 				5CACD8F32FB9B14800AAA3AD /* Theme.swift */,
+				C0C2E6D4DB5241A29C08A8B3 /* HapticManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 				5CACD8F92FB9B14800AAA3AD /* TapButtonView.swift */,
 				5CACD8FA2FB9B14800AAA3AD /* UpgradeRowView.swift */,
 				5CACD8FB2FB9B14800AAA3AD /* UpgradesListView.swift */,
+				312E99CA3B6644A2B0F73D35 /* OfflineEarningsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -327,6 +333,8 @@
 				5CACD9062FB9B14800AAA3AD /* TapButtonView.swift in Sources */,
 				5CACD9072FB9B14800AAA3AD /* Upgrade.swift in Sources */,
 				5CACD9082FB9B14800AAA3AD /* UpgradesListView.swift in Sources */,
+				76A20CEFED8B4B74892B141B /* OfflineEarningsView.swift in Sources */,
+				F089FF7450C94C409A442960 /* HapticManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

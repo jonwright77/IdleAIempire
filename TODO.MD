@@ -58,20 +58,20 @@ The game should be fun within the first 5 minutes.
 
 # Phase 5 — Balancing
 
-- [ ] Play-test early progression
-- [ ] Ensure first upgrade buyable in under 20 seconds
-- [ ] Ensure progression feels rewarding
-- [ ] Tune upgrade pricing
-- [ ] Tune passive income pacing
+- [x] Ensure first upgrade buyable in under 20 seconds (GPU at 10 compute — ~5 taps)
+- [x] Tune upgrade pricing (Server Rack 100→75, Data Centre 1000→500)
+- [x] Extend upgrade ladder (added AI Cluster, Hyperscaler, Quantum Core)
+- [ ] Play-test and verify progression feels rewarding
+- [ ] Tune passive income pacing after play-testing
 
 ---
 
 # Phase 6 — Polish
 
 - [x] Add number abbreviations (compactFormatted)
-- [ ] Add sound placeholders
-- [ ] Add simple particle effects
-- [ ] Add offline earnings popup
+- [x] Add offline earnings popup
+- [x] Add sound placeholders (HapticManager — light on tap, success notification on purchase)
+- [x] Add simple particle effects (floating "+X" label on tap)
 
 ---
 

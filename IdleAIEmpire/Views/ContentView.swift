@@ -17,6 +17,10 @@ struct ContentView: View {
         .onChange(of: scenePhase) { phase in
             if phase == .background { vm.save() }
         }
+        .sheet(isPresented: $vm.showOfflinePopup) {
+            OfflineEarningsView(amount: vm.pendingOfflineEarnings)
+                .presentationDetents([.medium])
+        }
     }
 }
 

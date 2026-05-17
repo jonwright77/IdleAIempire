@@ -33,7 +33,7 @@ struct Upgrade: Codable, Identifiable {
             id: "server_rack",
             name: "Server Rack",
             flavor: "A rack of servers humming in your garage.",
-            baseCost: 100,
+            baseCost: 75,
             costMultiplier: 1.15,
             baseComputePerSecond: 0.5,
             owned: 0
@@ -42,9 +42,36 @@ struct Upgrade: Codable, Identifiable {
             id: "data_centre",
             name: "Data Centre",
             flavor: "An entire building dedicated to compute.",
-            baseCost: 1_000,
+            baseCost: 500,
             costMultiplier: 1.15,
-            baseComputePerSecond: 3.0,
+            baseComputePerSecond: 2.0,
+            owned: 0
+        ),
+        Upgrade(
+            id: "ai_cluster",
+            name: "AI Cluster",
+            flavor: "Thousands of coordinated GPUs chasing a single objective.",
+            baseCost: 4_000,
+            costMultiplier: 1.15,
+            baseComputePerSecond: 10.0,
+            owned: 0
+        ),
+        Upgrade(
+            id: "hyperscaler",
+            name: "Hyperscaler",
+            flavor: "A hyperscale facility running exaflops of AI workloads.",
+            baseCost: 40_000,
+            costMultiplier: 1.15,
+            baseComputePerSecond: 50.0,
+            owned: 0
+        ),
+        Upgrade(
+            id: "quantum_core",
+            name: "Quantum Core",
+            flavor: "Qubits doing the work of a million classical chips.",
+            baseCost: 400_000,
+            costMultiplier: 1.15,
+            baseComputePerSecond: 250.0,
             owned: 0
         ),
     ]
