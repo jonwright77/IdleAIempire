@@ -50,6 +50,12 @@ They can:
 | AI Cluster | 4,000 | ×1.15 | 10.0 |
 | Hyperscaler | 40,000 | ×1.15 | 50.0 |
 | Quantum Core | 400,000 | ×1.15 | 250.0 |
+| Cooling Array | 4,000,000 | ×1.15 | 1,250.0 |
+| AI Agent | 40,000,000 | ×1.15 | 6,250.0 |
+| Neural Fabric | 400,000,000 | ×1.15 | 31,250.0 |
+| Orbital Station | 4,000,000,000 | ×1.15 | 156,250.0 |
+| Dyson Swarm | 40,000,000,000 | ×1.15 | 781,250.0 |
+| Planetary Grid | 400,000,000,000 | ×1.15 | 3,906,250.0 |
 
 ## Not yet built
 Sound, particle effects, prestige, research, achievements.

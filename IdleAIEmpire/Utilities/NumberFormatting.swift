@@ -12,8 +12,10 @@ extension Double {
             return String(format: "%.2fM", self / 1_000_000)
         case 1_000_000_000..<1_000_000_000_000:
             return String(format: "%.2fB", self / 1_000_000_000)
-        default:
+        case 1_000_000_000_000..<1_000_000_000_000_000:
             return String(format: "%.2fT", self / 1_000_000_000_000)
+        default:
+            return String(format: "%.2fQ", self / 1_000_000_000_000_000)
         }
     }
 }

@@ -74,5 +74,59 @@ struct Upgrade: Codable, Identifiable {
             baseComputePerSecond: 250.0,
             owned: 0
         ),
+        Upgrade(
+            id: "cooling_array",
+            name: "Cooling Array",
+            flavor: "Supercooled infrastructure keeping your empire from melting itself.",
+            baseCost: 4_000_000,
+            costMultiplier: 1.15,
+            baseComputePerSecond: 1_250.0,
+            owned: 0
+        ),
+        Upgrade(
+            id: "ai_agent",
+            name: "AI Agent",
+            flavor: "An autonomous system that optimises compute faster than any human.",
+            baseCost: 40_000_000,
+            costMultiplier: 1.15,
+            baseComputePerSecond: 6_250.0,
+            owned: 0
+        ),
+        Upgrade(
+            id: "neural_fabric",
+            name: "Neural Fabric",
+            flavor: "A self-organising substrate of interconnected neural processors.",
+            baseCost: 400_000_000,
+            costMultiplier: 1.15,
+            baseComputePerSecond: 31_250.0,
+            owned: 0
+        ),
+        Upgrade(
+            id: "orbital_station",
+            name: "Orbital Station",
+            flavor: "A compute platform above the atmosphere, free from earthly limits.",
+            baseCost: 4_000_000_000,
+            costMultiplier: 1.15,
+            baseComputePerSecond: 156_250.0,
+            owned: 0
+        ),
+        Upgrade(
+            id: "dyson_swarm",
+            name: "Dyson Swarm",
+            flavor: "Solar collectors blanketing the sun, powering exaflops around the clock.",
+            baseCost: 40_000_000_000,
+            costMultiplier: 1.15,
+            baseComputePerSecond: 781_250.0,
+            owned: 0
+        ),
+        Upgrade(
+            id: "planetary_grid",
+            name: "Planetary Grid",
+            flavor: "The entire planet rewired as a single unified compute matrix.",
+            baseCost: 400_000_000_000,
+            costMultiplier: 1.15,
+            baseComputePerSecond: 3_906_250.0,
+            owned: 0
+        ),
     ]
 }

@@ -16,4 +16,12 @@ struct GameState: Codable {
     var computePerSecond: Double {
         upgrades.reduce(0) { $0 + $1.computePerSecond }
     }
+
+    // Appends any catalog entries added since this save was written.
+    // Safe because catalog entries are always appended, never reordered.
+    mutating func mergeNewCatalogEntries() {
+        let catalog = Upgrade.catalog
+        guard upgrades.count < catalog.count else { return }
+        upgrades.append(contentsOf: catalog[upgrades.count...])
+    }
 }

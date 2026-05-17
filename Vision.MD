@@ -2,12 +2,12 @@
 
 ---
 
-# Current Milestone (PoC — 2026-05-16)
+# Current Milestone (PoC — 2026-05-17)
 
 > "Would someone voluntarily keep playing this?"
 
-**Status:** Core gameplay loop is built. Phases 1–4 complete.
-Next step: play-test and balance (Phase 5).
+**Status:** Phases 1–6 complete. 6 upgrade tiers, offline popup, haptics, particle effects.
+Next step: play-test and validate (Phase 7), then Research system (Phase 8).
 
 ---
 

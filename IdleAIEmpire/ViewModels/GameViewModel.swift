@@ -13,6 +13,7 @@ final class GameViewModel: ObservableObject {
 
     init() {
         var loaded = PersistenceManager.load() ?? GameState()
+        loaded.mergeNewCatalogEntries()
         let offline = Self.offlineEarnings(for: loaded, cap: 3 * 3600)
         loaded.compute += offline
         self.state = loaded

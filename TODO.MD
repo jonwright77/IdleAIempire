@@ -75,16 +75,94 @@ The game should be fun within the first 5 minutes.
 
 ---
 
-# Not Yet
+---
 
-Do NOT add yet:
-- [ ] Ads
-- [ ] StoreKit
-- [ ] Backend
-- [ ] Multiplayer
-- [ ] Cloud saves
-- [ ] Analytics
-- [ ] Achievements
-- [ ] Prestige system
+# Phase 7 — Validate PoC
 
-These come later after gameplay validation.
+The question to answer: **"Would someone voluntarily keep playing this?"**
+
+- [ ] Internal play-test: reach all 6 upgrades in a single session
+- [ ] Verify first 5 minutes feel satisfying without external explanation
+- [ ] Identify any dead-time gaps where progress stalls
+- [ ] Decide: is the core loop fun enough to build on?
+
+Do not proceed to Phase 8 until this is answered.
+
+---
+
+# Phase 8 — Research System
+
+Add a goal layer beyond buying upgrades. Research gives players something to aim for while passive income builds.
+
+- [ ] Add a `Research` resource (earned passively, separate from Compute)
+- [ ] Add `ResearchNode` model with unlock cost and effect
+- [ ] Build a simple linear tree: ~6 nodes (e.g. Efficient Cooling, Parallel Processing, Neural Scaling, Edge Compute, Quantum Tunnelling, Singularity Protocol)
+- [ ] Each node unlocks a permanent multiplier (compute per tap, CPS, or cost reduction)
+- [ ] Add Research tab or panel to the UI
+- [ ] Save/load research state
+
+---
+
+# Phase 9 — Automation
+
+The moment the game becomes truly idle. Players should feel their empire running without them.
+
+- [ ] Add Auto-Tapper milestone: unlocked after buying 25 GPUs (generates 1 tap/sec)
+- [ ] Show automation status in the UI (pulsing indicator when active)
+- [ ] Optionally: make Auto-Tapper upgradeable via Research
+
+---
+
+# Phase 10 — Prestige (Singularity)
+
+Core replayability. Resets feel like acceleration, not punishment.
+
+- [ ] Unlock Singularity option after reaching a compute threshold (e.g. 1 Trillion)
+- [ ] Reset upgrades and compute on prestige
+- [ ] Award `Singularity Shards` — permanent per-run multiplier (×1.1 per shard)
+- [ ] Show Singularity Shards and current multiplier in Stats header
+- [ ] Add prestige confirmation screen (show what you'll earn and keep)
+- [ ] Balance: first prestige should be reachable in ~30–60 mins of play
+
+---
+
+# Phase 11 — Achievements
+
+Milestone markers that reward progress and give players a sense of history.
+
+- [ ] Define ~15 achievements (first GPU, first passive income, first prestige, 1K/1M/1B compute, etc.)
+- [ ] Add `AchievementManager` to track and persist unlocks
+- [ ] Show a toast notification on unlock (brief banner, distinct haptic)
+- [ ] Add Achievements screen accessible from UI
+
+---
+
+# Phase 12 — Sound & Visual Polish
+
+Upgrade haptic placeholders to real audio. Add unlock moments and milestone fanfare.
+
+- [ ] Add real tap sound via AVAudioPlayer (replace HapticManager stub)
+- [ ] Add purchase sound effect
+- [ ] Add upgrade row unlock animation (glow/pulse when first affordable)
+- [ ] Add milestone fanfare: screen flash + stronger haptic on first prestige
+- [ ] Add brief onboarding hint for first-time players (dismissible overlay)
+
+---
+
+# Phase 13 — Monetisation Foundation
+
+Only start after Phase 10 is validated. Monetisation should enhance, never gate.
+
+- [ ] Rewarded ad: ×2 compute for 30 seconds
+- [ ] Remove Ads IAP (StoreKit)
+- [ ] Cosmetic skins for tap button (no gameplay advantage)
+- [ ] Audit every placement: would a player feel respected or exploited?
+
+---
+
+# Still Never
+
+- [ ] Backend / multiplayer / cloud saves
+- [ ] Aggressive interstitials
+- [ ] Energy systems
+- [ ] Paywalls
