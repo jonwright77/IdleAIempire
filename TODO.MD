@@ -1,15 +1,4 @@
-# TODO — Proof of Concept
-
-## Goal
-
-Build a playable idle game prototype with:
-- tapping
-- passive income
-- upgrades
-- save/load
-- offline progression
-
-The game should be fun within the first 5 minutes.
+# TODO
 
 ---
 
@@ -43,6 +32,7 @@ The game should be fun within the first 5 minutes.
 - [x] Load game state on startup
 - [x] Track last active timestamp
 - [x] Add offline earnings calculation
+- [x] Forward migration (new catalog entries merged into existing saves)
 
 ---
 
@@ -56,50 +46,46 @@ The game should be fun within the first 5 minutes.
 
 ---
 
-# Phase 5 — Balancing
+# Phase 5 — Balancing ✅
 
 - [x] Ensure first upgrade buyable in under 20 seconds (GPU at 10 compute — ~5 taps)
 - [x] Tune upgrade pricing (Server Rack 100→75, Data Centre 1000→500)
-- [x] Extend upgrade ladder (added AI Cluster, Hyperscaler, Quantum Core)
-- [ ] Play-test and verify progression feels rewarding
-- [ ] Tune passive income pacing after play-testing
+- [x] Extend upgrade ladder to 12 tiers (GPU → Planetary Grid)
+- [x] Play-test and verify progression feels rewarding
+- [x] Tune passive income pacing
 
 ---
 
-# Phase 6 — Polish
+# Phase 6 — Polish ✅
 
-- [x] Add number abbreviations (compactFormatted)
+- [x] Add number abbreviations (compactFormatted — K/M/B/T/Q)
 - [x] Add offline earnings popup
-- [x] Add sound placeholders (HapticManager — light on tap, success notification on purchase)
-- [x] Add simple particle effects (floating "+X" label on tap)
+- [x] Add sound placeholders (HapticManager — light tap, success on purchase)
+- [x] Add particle effect (floating "+X" label on tap)
 
 ---
 
----
+# Phase 7 — Validate PoC ✅
 
-# Phase 7 — Validate PoC
+> "Would someone voluntarily keep playing this?"
 
-The question to answer: **"Would someone voluntarily keep playing this?"**
-
-- [ ] Internal play-test: reach all 6 upgrades in a single session
-- [ ] Verify first 5 minutes feel satisfying without external explanation
-- [ ] Identify any dead-time gaps where progress stalls
-- [ ] Decide: is the core loop fun enough to build on?
-
-Do not proceed to Phase 8 until this is answered.
+- [x] Internal play-test: reach all 12 upgrades in a session
+- [x] Verify first 5 minutes feel satisfying without explanation
+- [x] Confirm no dead-time gaps in early progression
+- [x] Decision: core loop is fun — proceed to Phase 8
 
 ---
 
 # Phase 8 — Research System ✅
 
-Add a goal layer beyond buying upgrades. Research gives players something to aim for while passive income builds.
-
-- [x] Add a `Research` resource (earned passively, separate from Compute)
-- [x] Add `ResearchNode` model with unlock cost and effect
-- [x] Build a simple linear tree: 6 nodes (Efficient Cooling → Parallel Processing → Neural Scaling → Edge Compute → Quantum Tunnelling → Singularity Protocol)
-- [x] Each node unlocks a permanent multiplier (CPS, tap, or offline cap)
-- [x] Add Research tab to UI with custom UPGRADES / RESEARCH tab bar
-- [x] Save/load research state (Codable, merged on load)
+- [x] Add `ResearchNode` model with 10-node linear catalog
+- [x] Research nodes purchased with Compute (same currency as upgrades)
+- [x] Each node applies a permanent multiplier (CPS, tap, or offline cap)
+- [x] Effective CPS/tap computed from base × research multipliers
+- [x] Offline cap dynamic: 3h base + research bonuses (up to 16h)
+- [x] Add UPGRADES / RESEARCH tab bar to UI
+- [x] ResearchView: node list with lock/unlock/affordability states
+- [x] Save/load via Codable; new nodes merged into existing saves
 
 ---
 
@@ -160,7 +146,7 @@ Only start after Phase 10 is validated. Monetisation should enhance, never gate.
 
 ---
 
-# Still Never
+# Never
 
 - [ ] Backend / multiplayer / cloud saves
 - [ ] Aggressive interstitials

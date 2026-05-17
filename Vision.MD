@@ -2,12 +2,18 @@
 
 ---
 
-# Current Milestone (PoC — 2026-05-17)
+# Current Milestone (2026-05-17)
 
-> "Would someone voluntarily keep playing this?"
+**Status:** Phases 1–8 complete. PoC validated.
 
-**Status:** Phases 1–6 complete. 6 upgrade tiers, offline popup, haptics, particle effects.
-Next step: play-test and validate (Phase 7), then Research system (Phase 8).
+What's built:
+- 12 upgrade tiers (GPU → Planetary Grid)
+- 10 research nodes with permanent multipliers (Compute cost, linear unlock)
+- Offline earnings up to 16h (with research)
+- Haptics, tap particles, offline popup
+- UPGRADES / RESEARCH tab UI
+
+Next: Phase 9 (Automation) — the moment the game becomes truly idle.
 
 ---
 
@@ -68,47 +74,47 @@ Possible tone:
 
 Progression should evolve in layers.
 
-### Early Game (PoC scope)
-- GPUs
-- small racks
-- manual clicking
-- cheap upgrades
+### Early Game ✅
+- GPUs, Server Racks, Data Centres
+- manual tapping
+- research unlocks early multipliers
 
-### Mid Game (future)
-- data centres
-- cooling systems
-- automation
-- AI agents
-- research
+### Mid Game ✅ (partially)
+- AI Clusters, Hyperscalers, Quantum Cores
+- Cooling Arrays, AI Agents, Neural Fabric
+- research tree with CPS + tap multipliers
 
-### Late Game (future)
-- orbital compute
-- quantum chips
-- autonomous AI economies
-- planetary infrastructure
+### Late Game ✅ (upgrade ladder only)
+- Orbital Stations, Dyson Swarms, Planetary Grid
+- top research nodes: Autonomous Replication → Planetary Consciousness
+
+### Systems still to build
+- Automation (Phase 9)
+- Prestige / Singularity resets (Phase 10)
+- Achievements (Phase 11)
 
 ---
 
 # Long-Term Systems
 
-Potential future systems:
-
-- Prestige / Singularity resets
-- Research trees
-- Achievements
-- Daily rewards
-- Events
-- Limited-time boosts
-- Cosmetic upgrades
-- Multiple resource types
-- Rare discoveries
-- Global leaderboard (optional)
+| System | Status |
+|--------|--------|
+| Research tree | ✅ Built (10 nodes) |
+| Automation / auto-tap | Phase 9 |
+| Prestige / Singularity resets | Phase 10 |
+| Achievements | Phase 11 |
+| Daily rewards | Future |
+| Events / limited-time boosts | Future |
+| Cosmetic upgrades | Phase 13 |
+| Multiple resource types | Future |
+| Rare discoveries | Future |
+| Global leaderboard | Future (maybe never) |
 
 ---
 
 # Monetisation Philosophy
 
-> Not relevant until gameplay is validated.
+Gameplay is validated. Monetisation can be planned, but not built until Phase 10 is complete.
 
 Monetisation should:
 - enhance progression
@@ -133,7 +139,7 @@ Avoid:
 
 Style:
 - dark UI
-- neon accents (cyan primary, purple secondary)
+- neon accents (cyan primary — upgrades, purple secondary — research)
 - glowing stats
 - futuristic dashboards
 - clean monospaced typography

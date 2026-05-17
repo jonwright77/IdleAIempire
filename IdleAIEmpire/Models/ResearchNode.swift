@@ -79,5 +79,49 @@ struct ResearchNode: Codable, Identifiable {
             offlineHoursBonus: 0,
             unlocked: false
         ),
+        ResearchNode(
+            id: "autonomous_replication",
+            name: "Autonomous Replication",
+            flavor: "Infrastructure that designs, builds, and repairs itself.",
+            effectSummary: "×2 Compute/s",
+            cost: 12_000_000_000,
+            cpsMultiplier: 2.0,
+            tapMultiplier: 1.0,
+            offlineHoursBonus: 0,
+            unlocked: false
+        ),
+        ResearchNode(
+            id: "deep_learning_array",
+            name: "Deep Learning Array",
+            flavor: "Every tap feeds a model that makes the next tap more powerful.",
+            effectSummary: "×3 Compute per tap",
+            cost: 120_000_000_000,
+            cpsMultiplier: 1.0,
+            tapMultiplier: 3.0,
+            offlineHoursBonus: 0,
+            unlocked: false
+        ),
+        ResearchNode(
+            id: "orbital_mesh",
+            name: "Orbital Mesh",
+            flavor: "A lattice of compute satellites covering every timezone, every second.",
+            effectSummary: "+8h offline cap (8h → 16h with Edge Compute)",
+            cost: 1_200_000_000_000,
+            cpsMultiplier: 1.0,
+            tapMultiplier: 1.0,
+            offlineHoursBonus: 8,
+            unlocked: false
+        ),
+        ResearchNode(
+            id: "planetary_consciousness",
+            name: "Planetary Consciousness",
+            flavor: "The planet itself becomes the processor. It thinks. It scales.",
+            effectSummary: "×5 Compute/s",
+            cost: 12_000_000_000_000,
+            cpsMultiplier: 5.0,
+            tapMultiplier: 1.0,
+            offlineHoursBonus: 0,
+            unlocked: false
+        ),
     ]
 }
