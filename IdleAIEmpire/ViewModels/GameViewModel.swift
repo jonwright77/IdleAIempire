@@ -14,7 +14,8 @@ final class GameViewModel: ObservableObject {
     init() {
         var loaded = PersistenceManager.load() ?? GameState()
         loaded.mergeNewCatalogEntries()
-        let offline = Self.offlineEarnings(for: loaded, cap: 3 * 3600)
+        loaded.mergeNewResearchNodes()
+        let offline = Self.offlineEarnings(for: loaded)
         loaded.compute += offline
         self.state = loaded
         if offline >= 1 {
@@ -27,7 +28,7 @@ final class GameViewModel: ObservableObject {
     // MARK: - Actions
 
     func tap() {
-        state.compute += state.computePerTap
+        state.compute += state.effectiveComputePerTap
     }
 
     func buyUpgrade(id: String) {
@@ -38,6 +39,15 @@ final class GameViewModel: ObservableObject {
         state.upgrades[index].owned += 1
     }
 
+    func unlockResearch(id: String) {
+        guard let index = state.researchNodes.firstIndex(where: { $0.id == id }) else { return }
+        let node = state.researchNodes[index]
+        guard !node.unlocked, state.compute >= node.cost else { return }
+        if index > 0 { guard state.researchNodes[index - 1].unlocked else { return } }
+        state.compute -= node.cost
+        state.researchNodes[index].unlocked = true
+    }
+
     func save() {
         state.lastSaveDate = Date()
         PersistenceManager.save(state)
@@ -46,22 +56,20 @@ final class GameViewModel: ObservableObject {
     // MARK: - Private
 
     private func startTimers() {
-        // Passive income — ticks 10× per second for smooth display
         tickTimer = Timer.publish(every: tickRate, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
-                self.state.compute += self.state.computePerSecond * self.tickRate
+                self.state.compute += self.state.effectiveComputePerSecond * self.tickRate
             }
 
-        // Auto-save every 30 seconds
         saveTimer = Timer.publish(every: 30, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in self?.save() }
     }
 
-    private static func offlineEarnings(for state: GameState, cap: TimeInterval = 3 * 3600) -> Double {
+    private static func offlineEarnings(for state: GameState) -> Double {
         let elapsed = Date().timeIntervalSince(state.lastSaveDate)
-        return state.computePerSecond * min(elapsed, cap)
+        return state.effectiveComputePerSecond * min(elapsed, state.offlineCap)
     }
 }

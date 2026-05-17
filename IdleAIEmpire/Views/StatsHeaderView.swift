@@ -16,7 +16,7 @@ struct StatsHeaderView: View {
                 .contentTransition(.numericText())
                 .animation(.easeOut(duration: 0.1), value: vm.state.compute)
 
-            Text("\(vm.state.computePerSecond.compactFormatted) / sec")
+            Text("\(vm.state.effectiveComputePerSecond.compactFormatted) / sec")
                 .font(.subheadline)
                 .foregroundColor(.neonCyan.opacity(0.6))
         }

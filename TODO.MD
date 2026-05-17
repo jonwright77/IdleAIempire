@@ -90,16 +90,16 @@ Do not proceed to Phase 8 until this is answered.
 
 ---
 
-# Phase 8 — Research System
+# Phase 8 — Research System ✅
 
 Add a goal layer beyond buying upgrades. Research gives players something to aim for while passive income builds.
 
-- [ ] Add a `Research` resource (earned passively, separate from Compute)
-- [ ] Add `ResearchNode` model with unlock cost and effect
-- [ ] Build a simple linear tree: ~6 nodes (e.g. Efficient Cooling, Parallel Processing, Neural Scaling, Edge Compute, Quantum Tunnelling, Singularity Protocol)
-- [ ] Each node unlocks a permanent multiplier (compute per tap, CPS, or cost reduction)
-- [ ] Add Research tab or panel to the UI
-- [ ] Save/load research state
+- [x] Add a `Research` resource (earned passively, separate from Compute)
+- [x] Add `ResearchNode` model with unlock cost and effect
+- [x] Build a simple linear tree: 6 nodes (Efficient Cooling → Parallel Processing → Neural Scaling → Edge Compute → Quantum Tunnelling → Singularity Protocol)
+- [x] Each node unlocks a permanent multiplier (CPS, tap, or offline cap)
+- [x] Add Research tab to UI with custom UPGRADES / RESEARCH tab bar
+- [x] Save/load research state (Codable, merged on load)
 
 ---
 
