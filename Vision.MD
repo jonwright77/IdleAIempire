@@ -4,16 +4,18 @@
 
 # Current Milestone (2026-05-17)
 
-**Status:** Phases 1–8 complete. PoC validated.
+**Status:** Phases 1–11 complete.
 
 What's built:
 - 12 upgrade tiers (GPU → Planetary Grid)
 - 10 research nodes with permanent multipliers (Compute cost, linear unlock)
-- Offline earnings up to 16h (with research)
-- Haptics, tap particles, offline popup
-- UPGRADES / RESEARCH tab UI
+- Auto-Tapper (25 GPUs → 1 passive tap/sec, pulsing ring UI)
+- Prestige / Singularity (reset at 1T, shard multiplier ×1.1^shards)
+- 15 achievements with toast notifications and AWARDS screen
+- Offline earnings on cold launch and foreground return (up to 16h)
+- UPGRADES / RESEARCH / AWARDS tab UI
 
-Next: Phase 9 (Automation) — the moment the game becomes truly idle.
+Next: Phase 12 (Sound & Visual Polish), then Phase 13 (Monetisation Foundation).
 
 ---
 
@@ -79,19 +81,21 @@ Progression should evolve in layers.
 - manual tapping
 - research unlocks early multipliers
 
-### Mid Game ✅ (partially)
+### Mid Game ✅
 - AI Clusters, Hyperscalers, Quantum Cores
 - Cooling Arrays, AI Agents, Neural Fabric
 - research tree with CPS + tap multipliers
+- Auto-Tapper milestone
 
-### Late Game ✅ (upgrade ladder only)
+### Late Game ✅
 - Orbital Stations, Dyson Swarms, Planetary Grid
 - top research nodes: Autonomous Replication → Planetary Consciousness
+- Prestige / Singularity resets with shard multiplier
 
 ### Systems still to build
-- Automation (Phase 9)
-- Prestige / Singularity resets (Phase 10)
-- Achievements (Phase 11)
+- Sound effects (Phase 12)
+- Visual polish — unlock animations, milestone fanfare (Phase 12)
+- Monetisation (Phase 13)
 
 ---
 
@@ -100,12 +104,13 @@ Progression should evolve in layers.
 | System | Status |
 |--------|--------|
 | Research tree | ✅ Built (10 nodes) |
-| Automation / auto-tap | Phase 9 |
-| Prestige / Singularity resets | Phase 10 |
-| Achievements | Phase 11 |
+| Automation / auto-tap | ✅ Built (25 GPU milestone) |
+| Prestige / Singularity resets | ✅ Built (1T threshold, shard multiplier) |
+| Achievements | ✅ Built (15 achievements, toast) |
+| Sound & visual polish | Phase 12 |
+| Cosmetic upgrades | Phase 13 |
 | Daily rewards | Future |
 | Events / limited-time boosts | Future |
-| Cosmetic upgrades | Phase 13 |
 | Multiple resource types | Future |
 | Rare discoveries | Future |
 | Global leaderboard | Future (maybe never) |
@@ -114,7 +119,7 @@ Progression should evolve in layers.
 
 # Monetisation Philosophy
 
-Gameplay is validated. Monetisation can be planned, but not built until Phase 10 is complete.
+Phase 10 is complete — monetisation can now be planned and built (Phase 13).
 
 Monetisation should:
 - enhance progression
@@ -122,7 +127,7 @@ Monetisation should:
 - respect player time
 
 Preferred:
-- rewarded ads
+- rewarded ads (×2 compute for 30s)
 - optional boosts
 - cosmetic purchases
 - remove ads purchase
@@ -139,7 +144,7 @@ Avoid:
 
 Style:
 - dark UI
-- neon accents (cyan primary — upgrades, purple secondary — research)
+- neon accents (cyan primary — upgrades/tap, purple secondary — research/prestige)
 - glowing stats
 - futuristic dashboards
 - clean monospaced typography

@@ -27,7 +27,8 @@ They can:
 - Tap to generate Compute instantly
 - Buy upgrades (GPUs through Planetary Grid) for passive income
 - Unlock Research nodes to apply permanent multipliers
-- Earn Compute while offline (3h base, up to 16h with research)
+- Earn Compute while offline or backgrounded (3h base, up to 16h with research)
+- Prestige (Singularity) to reset upgrades and earn permanent shard multipliers
 
 ---
 
@@ -35,15 +36,18 @@ They can:
 
 ## What works
 - Tap button with spring-bounce animation + floating "+X" particle
-- Haptic feedback on tap (light) and purchase (success notification)
+- Haptic feedback on tap (light) and purchase/unlock (success notification)
 - Passive income ticking 10× per second
+- Auto-Tapper: unlocked at 25 GPUs, generates 1 tap/sec passively
 - 12 buyable upgrades with ×1.15 scaling costs
 - Owned count badge per upgrade
-- Auto-save every 30 seconds + on app background
-- Offline earnings calculated on next launch + popup on return
+- Auto-save every 30 seconds + on background; offline earnings applied on both cold launch and foreground return
+- Offline earnings popup on return
 - Research system: 10 nodes purchased with Compute, permanent multipliers
-- UPGRADES / RESEARCH tab bar (neon cyan / neon purple accents)
-- Dark futuristic UI
+- Prestige system: Singularity at 1T compute, shard multiplier (×1.1^shards) on all production
+- 15 achievements with toast notifications and AWARDS screen
+- UPGRADES / RESEARCH / AWARDS tab bar
+- Dark futuristic UI (neon cyan + purple)
 
 ## Upgrades
 | Name | Base Cost | Cost Multiplier | Compute/s each |
@@ -77,8 +81,17 @@ They can:
 
 All 10 nodes unlocked: ×112.5 CPS · ×12 per tap · 16h offline cap.
 
+## Prestige
+- Threshold: 1 Trillion Compute
+- Award: 1 Singularity Shard per prestige
+- Multiplier: ×1.1^shards applied to all Compute production
+- Resets: upgrades + compute. Keeps: research nodes, shards
+
+## Achievements (15)
+Upgrade milestones, compute thresholds (1K → 1T), auto-tap, research, prestige. Toast on unlock.
+
 ## Not yet built
-Automation, prestige, achievements, real sound effects.
+Real sound effects, visual polish, monetisation.
 
 ---
 
@@ -89,18 +102,21 @@ IdleAIEmpire/
   App/
     IdleAIEmpireApp.swift         ← @main entry point
   Models/
-    GameState.swift               ← Codable game data + effective value computed props
+    GameState.swift               ← Codable game data + all computed effective values
     Upgrade.swift                 ← Upgrade struct + 12-entry catalog
     ResearchNode.swift            ← ResearchNode struct + 10-entry catalog
+    Achievement.swift             ← Achievement struct + 15-entry catalog
   ViewModels/
     GameViewModel.swift           ← ObservableObject, all game logic
   Views/
-    ContentView.swift             ← Root screen + UPGRADES/RESEARCH tab bar
-    StatsHeaderView.swift         ← Compute counter + effective CPS
-    TapButtonView.swift           ← Animated tap button + floating particle
+    ContentView.swift             ← Root screen + 3-tab bar + singularity banner + toast
+    StatsHeaderView.swift         ← Compute counter + effective CPS + shard display
+    TapButtonView.swift           ← Animated tap button + floating particle + auto ring
     UpgradesListView.swift        ← Scrollable upgrade list
     UpgradeRowView.swift          ← Single upgrade row
     ResearchView.swift            ← Research node list
+    AchievementsView.swift        ← Achievement list + AchievementToast
+    SingularityView.swift         ← Prestige confirmation sheet
     OfflineEarningsView.swift     ← Offline earnings popup sheet
   Utilities/
     Theme.swift                   ← Color extensions
@@ -123,12 +139,15 @@ IdleAIEmpire/
 
 # Completed Milestones
 
-- [x] Tap button
-- [x] Passive income
-- [x] Upgrade purchasing (12 tiers)
-- [x] Offline earnings + popup
-- [x] Save/load system with forward migration
+- [x] Tap button + spring animation + floating particle
+- [x] Passive income (10 ticks/sec)
+- [x] Upgrade purchasing (12 tiers, ×1.15 scaling)
+- [x] Auto-Tapper (25 GPUs → 1 tap/sec passive)
+- [x] Offline earnings + popup (cold launch + foreground return)
+- [x] Save/load with forward migration for all catalogs
 - [x] Futuristic dark UI (neon cyan + purple)
-- [x] Haptics + tap particle effect
-- [x] Research system (10 nodes, linear unlock, Compute cost)
+- [x] Haptics + tap particle
+- [x] Research system (10 nodes, Compute cost, linear unlock)
+- [x] Prestige / Singularity (shard multiplier, confirmation screen)
+- [x] Achievements (15, toast on unlock, AWARDS screen)
 - [x] PoC play-tested and validated
