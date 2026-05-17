@@ -24,15 +24,42 @@ struct UpgradeRowView: View {
                             .background(Color.neonCyan.opacity(0.15))
                             .cornerRadius(4)
                     }
+
+                    if upgrade.milestones > 0 {
+                        Text("★ ×\(Int(upgrade.milestoneMultiplier))")
+                            .font(.caption2.bold())
+                            .foregroundColor(.neonGold)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.neonGold.opacity(0.15))
+                            .cornerRadius(4)
+                    }
                 }
 
                 Text(upgrade.flavor)
                     .font(.caption)
                     .foregroundColor(.textMuted)
 
-                Text("+\(upgrade.baseComputePerSecond.compactFormatted) /s each")
-                    .font(.caption2)
-                    .foregroundColor(.neonCyan.opacity(0.6))
+                HStack(spacing: 6) {
+                    Text("+\(upgrade.baseComputePerSecond.compactFormatted)/s each")
+                        .font(.caption2)
+                        .foregroundColor(.neonCyan.opacity(0.6))
+
+                    if upgrade.owned > 0 {
+                        Text("·  \(upgrade.computePerSecond.compactFormatted)/s total")
+                            .font(.caption2)
+                            .foregroundColor(
+                                upgrade.milestones > 0 ? .neonGold.opacity(0.85) : .neonCyan.opacity(0.4)
+                            )
+                    }
+                }
+
+                if upgrade.owned > 0 {
+                    let toNext = 100 - (upgrade.owned % 100)
+                    Text("★ milestone in \(toNext)")
+                        .font(.caption2)
+                        .foregroundColor(.neonGold.opacity(0.45))
+                }
             }
 
             Spacer()
@@ -59,7 +86,13 @@ struct UpgradeRowView: View {
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(canAfford ? Color.neonCyan.opacity(0.35) : Color.clear, lineWidth: 1)
+                .stroke(borderColor, lineWidth: 1)
         )
+    }
+
+    private var borderColor: Color {
+        if upgrade.milestones > 0 { return Color.neonGold.opacity(0.35) }
+        if canAfford { return Color.neonCyan.opacity(0.35) }
+        return Color.clear
     }
 }

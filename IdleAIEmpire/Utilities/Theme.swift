@@ -5,5 +5,6 @@ extension Color {
     static let bgCard           = Color(red: 0.10, green: 0.10, blue: 0.18)
     static let neonCyan         = Color(red: 0.00, green: 0.85, blue: 1.00)
     static let neonPurple       = Color(red: 0.55, green: 0.35, blue: 1.00)
+    static let neonGold         = Color(red: 1.00, green: 0.78, blue: 0.00)
     static let textMuted        = Color.white.opacity(0.45)
 }

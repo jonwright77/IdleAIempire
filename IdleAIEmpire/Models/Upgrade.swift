@@ -13,8 +13,12 @@ struct Upgrade: Codable, Identifiable {
         baseCost * pow(costMultiplier, Double(owned))
     }
 
+    // Every 100 owned applies a ×5 multiplier, stacking multiplicatively.
+    var milestones: Int { owned / 100 }
+    var milestoneMultiplier: Double { pow(5.0, Double(milestones)) }
+
     var computePerSecond: Double {
-        baseComputePerSecond * Double(owned)
+        baseComputePerSecond * Double(owned) * milestoneMultiplier
     }
 
     // Starting catalog — new entries must be appended, never reordered,
