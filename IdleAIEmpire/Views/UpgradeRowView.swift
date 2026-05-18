@@ -5,6 +5,8 @@ struct UpgradeRowView: View {
     let canAfford: Bool
     let onBuy: () -> Void
 
+    @State private var affordableGlow = false
+
     var body: some View {
         HStack(spacing: 12) {
             // Info
@@ -86,12 +88,25 @@ struct UpgradeRowView: View {
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(borderColor, lineWidth: 1)
+                .stroke(borderColor, lineWidth: affordableGlow ? 2 : 1)
         )
+        .shadow(
+            color: affordableGlow ? Color.neonCyan.opacity(0.5) : .clear,
+            radius: affordableGlow ? 10 : 0
+        )
+        .animation(.easeOut(duration: 0.3), value: affordableGlow)
+        .onChange(of: canAfford) { nowAffordable in
+            guard nowAffordable else { return }
+            affordableGlow = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                affordableGlow = false
+            }
+        }
     }
 
     private var borderColor: Color {
         if upgrade.milestones > 0 { return Color.neonGold.opacity(0.35) }
+        if affordableGlow { return Color.neonCyan.opacity(0.8) }
         if canAfford { return Color.neonCyan.opacity(0.35) }
         return Color.clear
     }

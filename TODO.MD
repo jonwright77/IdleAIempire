@@ -124,15 +124,14 @@ Milestone markers that reward progress and give players a sense of history.
 
 ---
 
-# Phase 12 — Sound & Visual Polish
+# Phase 12 — Sound & Visual Polish ✅
 
-Upgrade haptic placeholders to real audio. Add unlock moments and milestone fanfare.
-
-- [ ] Add real tap sound via AVAudioPlayer (replace HapticManager stub)
-- [ ] Add purchase sound effect
-- [ ] Add upgrade row unlock animation (glow/pulse when first affordable)
-- [ ] Add milestone fanfare: screen flash + stronger haptic on first prestige
-- [ ] Add brief onboarding hint for first-time players (dismissible overlay)
+- [x] Differentiated haptics: light (tap), success (purchase), heavy (milestone), warning (prestige)
+- [x] Upgrade row glow pulse when an upgrade first becomes affordable
+- [x] Milestone haptic (heavy impact) when owned crosses 100, 200, 300…
+- [x] Prestige screen flash (purple overlay) + warning haptic on Singularity
+- [x] Onboarding overlay on first launch (@AppStorage gated, explains tap/upgrades/research/auto-tap)
+- [ ] Real audio via AVAudioPlayer — hooks are in HapticManager, needs audio asset files
 
 ---
 

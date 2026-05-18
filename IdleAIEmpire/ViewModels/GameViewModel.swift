@@ -42,6 +42,9 @@ final class GameViewModel: ObservableObject {
         guard state.compute >= upgrade.cost else { return }
         state.compute -= upgrade.cost
         state.upgrades[index].owned += 1
+        if state.upgrades[index].owned % 100 == 0 {
+            HapticManager.milestone()
+        }
         checkAchievements()
     }
 
@@ -49,6 +52,7 @@ final class GameViewModel: ObservableObject {
         state.singularityShards += 1
         state.compute = 0
         for i in state.upgrades.indices { state.upgrades[i].owned = 0 }
+        HapticManager.prestige()
         checkAchievements()
         save()
     }

@@ -7,6 +7,8 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var selectedTab: GameTab = .upgrades
     @State private var showSingularity = false
+    @State private var prestigeFlashOpacity: Double = 0
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     var body: some View {
         ZStack {
@@ -23,10 +25,20 @@ struct ContentView: View {
 
                 tabContent
             }
+
+            // Prestige flash
+            Color.neonPurple
+                .opacity(prestigeFlashOpacity)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
         }
         .onChange(of: scenePhase) { phase in
             if phase == .background { vm.handleBackground() }
             if phase == .active { vm.handleForeground() }
+        }
+        .onChange(of: vm.state.singularityShards) { _ in
+            withAnimation(.easeOut(duration: 0.12)) { prestigeFlashOpacity = 0.45 }
+            withAnimation(.easeOut(duration: 0.7).delay(0.12)) { prestigeFlashOpacity = 0 }
         }
         .sheet(isPresented: $vm.showOfflinePopup) {
             OfflineEarningsView(amount: vm.pendingOfflineEarnings)
@@ -46,6 +58,12 @@ struct ContentView: View {
             }
         }
         .animation(.spring(response: 0.4, dampingFraction: 0.75), value: vm.toastAchievement?.id)
+        .overlay {
+            if !hasSeenOnboarding {
+                OnboardingOverlay { hasSeenOnboarding = true }
+                    .zIndex(2)
+            }
+        }
     }
 
     private var tabBar: some View {
@@ -104,6 +122,62 @@ struct ContentView: View {
         case .upgrades: UpgradesListView(vm: vm)
         case .research: ResearchView(vm: vm)
         case .awards:   AchievementsView(vm: vm)
+        }
+    }
+}
+
+// MARK: - Onboarding
+
+private struct OnboardingOverlay: View {
+    let onDismiss: () -> Void
+
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.85).ignoresSafeArea()
+
+            VStack(spacing: 32) {
+                VStack(spacing: 8) {
+                    Text("⚡")
+                        .font(.system(size: 48))
+                    Text("IDLE AI EMPIRE")
+                        .font(.title2.bold())
+                        .foregroundColor(.white)
+                        .tracking(2)
+                }
+
+                VStack(alignment: .leading, spacing: 16) {
+                    tip(icon: "cursorarrow.click", text: "Tap the button to earn Compute.")
+                    tip(icon: "arrow.up.right.circle", text: "Buy upgrades to earn Compute passively.")
+                    tip(icon: "magnifyingglass", text: "Unlock Research nodes for permanent multipliers.")
+                    tip(icon: "bolt.fill", text: "Buy 25 GPUs to unlock the Auto-Tapper.")
+                }
+                .padding(.horizontal, 8)
+
+                Button {
+                    onDismiss()
+                } label: {
+                    Text("START BUILDING")
+                        .font(.headline)
+                        .foregroundColor(.bgPrimary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(Color.neonCyan)
+                        .cornerRadius(12)
+                }
+            }
+            .padding(32)
+        }
+    }
+
+    private func tip(icon: String, text: String) -> some View {
+        HStack(spacing: 14) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundColor(.neonCyan)
+                .frame(width: 28)
+            Text(text)
+                .font(.subheadline)
+                .foregroundColor(.white.opacity(0.85))
         }
     }
 }
