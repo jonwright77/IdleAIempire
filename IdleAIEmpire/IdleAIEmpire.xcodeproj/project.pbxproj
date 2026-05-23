@@ -26,6 +26,7 @@
 		03FE2B225D294B2D90AA52B2 /* SingularityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFE17D672904740BEF8F404 /* SingularityView.swift */; };
 		1D909053CEF84A68AB3F908A /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4758FC6E7FD447B9A8A08C8C /* Achievement.swift */; };
 		F254D54ADA5C400FA8192F55 /* AchievementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E0CA8062B49268F8F85BE /* AchievementsView.swift */; };
+		A1B2C3D4E5F64A7B8C9D0E1F /* SingularityUpgradesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F64A7B8C9D0E10 /* SingularityUpgradesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		1EFE17D672904740BEF8F404 /* SingularityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingularityView.swift; sourceTree = "<group>"; };
 		4758FC6E7FD447B9A8A08C8C /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
 		B83E0CA8062B49268F8F85BE /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F64A7B8C9D0E10 /* SingularityUpgradesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingularityUpgradesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -187,6 +189,7 @@
 				312E99CA3B6644A2B0F73D35 /* OfflineEarningsView.swift */,
 				E452020B56814AAF885733DD /* ResearchView.swift */,
 				1EFE17D672904740BEF8F404 /* SingularityView.swift */,
+				A1B2C3D4E5F64A7B8C9D0E10 /* SingularityUpgradesView.swift */,
 				B83E0CA8062B49268F8F85BE /* AchievementsView.swift */,
 			);
 			path = Views;
@@ -353,6 +356,7 @@
 				BA97BB6C3DD94BB2BF8B3164 /* ResearchNode.swift in Sources */,
 				3BD10A5EA8794B628EFDE496 /* ResearchView.swift in Sources */,
 				03FE2B225D294B2D90AA52B2 /* SingularityView.swift in Sources */,
+				A1B2C3D4E5F64A7B8C9D0E1F /* SingularityUpgradesView.swift in Sources */,
 				1D909053CEF84A68AB3F908A /* Achievement.swift in Sources */,
 				F254D54ADA5C400FA8192F55 /* AchievementsView.swift in Sources */,
 			);

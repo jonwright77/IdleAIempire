@@ -2,11 +2,13 @@ import SwiftUI
 
 struct SingularityView: View {
     let currentShards: Int
+    let currentPoints: Int
     let onConfirm: () -> Void
     @Environment(\.dismiss) private var dismiss
 
     private var newShards: Int { currentShards + 1 }
     private var newMultiplier: Double { pow(1.1, Double(newShards)) }
+    private var newPoints: Int { currentPoints + 1 }
 
     var body: some View {
         ZStack {
@@ -34,14 +36,16 @@ struct SingularityView: View {
                 VStack(spacing: 1) {
                     infoRow("Singularity Shards", value: "+1  →  \(newShards) total")
                     infoRow("Compute multiplier", value: "×\(String(format: "%.2f", newMultiplier))")
+                    infoRow("Singularity Points", value: "+1  →  \(newPoints) to spend")
                 }
                 .cornerRadius(12)
                 .clipped()
 
                 // What is kept / reset
                 VStack(spacing: 1) {
-                    keepRow("Research nodes", kept: true)
                     keepRow("Singularity Shards", kept: true)
+                    keepRow("Singularity Upgrades", kept: true)
+                    keepRow("Research nodes", kept: false)
                     keepRow("All upgrades", kept: false)
                     keepRow("All Compute", kept: false)
                 }
@@ -108,5 +112,5 @@ struct SingularityView: View {
 }
 
 #Preview {
-    SingularityView(currentShards: 2, onConfirm: {})
+    SingularityView(currentShards: 2, currentPoints: 3, onConfirm: {})
 }

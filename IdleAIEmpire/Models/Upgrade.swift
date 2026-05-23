@@ -13,12 +13,27 @@ struct Upgrade: Codable, Identifiable {
         baseCost * pow(costMultiplier, Double(owned))
     }
 
-    // Every 100 owned applies a ×5 multiplier, stacking multiplicatively.
+    // Every 100 owned applies a ×5000 multiplier, stacking multiplicatively.
     var milestones: Int { owned / 100 }
-    var milestoneMultiplier: Double { pow(5.0, Double(milestones)) }
+    var milestoneMultiplier: Double { pow(5000.0, Double(milestones)) }
 
     var computePerSecond: Double {
         baseComputePerSecond * Double(owned) * milestoneMultiplier
+    }
+
+    // Permanent per-upgrade bonuses bought with singularity points.
+    // Index 0 = level 1, index 4 = level 5.
+    static let singularityLevelData: [(cost: Int, multiplier: Double)] = [
+        (cost: 1,  multiplier: 2.0),
+        (cost: 2,  multiplier: 5.0),
+        (cost: 3,  multiplier: 10.0),
+        (cost: 5,  multiplier: 25.0),
+        (cost: 8,  multiplier: 100.0),
+    ]
+
+    static func singularityMultiplier(forLevel level: Int) -> Double {
+        guard level > 0, level <= singularityLevelData.count else { return 1.0 }
+        return singularityLevelData[level - 1].multiplier
     }
 
     // Starting catalog — new entries must be appended, never reordered,

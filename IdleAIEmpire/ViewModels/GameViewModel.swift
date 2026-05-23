@@ -50,11 +50,23 @@ final class GameViewModel: ObservableObject {
 
     func performPrestige() {
         state.singularityShards += 1
+        state.singularityPoints += 1
         state.compute = 0
         for i in state.upgrades.indices { state.upgrades[i].owned = 0 }
+        for i in state.researchNodes.indices { state.researchNodes[i].unlocked = false }
         HapticManager.prestige()
         checkAchievements()
         save()
+    }
+
+    func buySingularityUpgrade(upgradeId: String) {
+        let currentLevel = state.singularityUpgradeLevels[upgradeId] ?? 0
+        guard currentLevel < Upgrade.singularityLevelData.count else { return }
+        let cost = Upgrade.singularityLevelData[currentLevel].cost
+        guard state.singularityPoints >= cost else { return }
+        state.singularityPoints -= cost
+        state.singularityUpgradeLevels[upgradeId] = currentLevel + 1
+        HapticManager.purchase()
     }
 
     func unlockResearch(id: String) {

@@ -1,6 +1,6 @@
 import SwiftUI
 
-private enum GameTab { case upgrades, research, awards }
+private enum GameTab { case upgrades, research, ascend, awards }
 
 struct ContentView: View {
     @StateObject private var vm = GameViewModel()
@@ -45,7 +45,7 @@ struct ContentView: View {
                 .presentationDetents([.medium])
         }
         .sheet(isPresented: $showSingularity) {
-            SingularityView(currentShards: vm.state.singularityShards) {
+            SingularityView(currentShards: vm.state.singularityShards, currentPoints: vm.state.singularityPoints) {
                 vm.performPrestige()
             }
             .presentationDetents([.large])
@@ -70,6 +70,7 @@ struct ContentView: View {
         HStack(spacing: 0) {
             tabButton("UPGRADES", tab: .upgrades)
             tabButton("RESEARCH", tab: .research)
+            tabButton("ASCEND", tab: .ascend)
             tabButton("AWARDS", tab: .awards)
         }
         .background(Color.bgCard)
@@ -121,6 +122,7 @@ struct ContentView: View {
         switch selectedTab {
         case .upgrades: UpgradesListView(vm: vm)
         case .research: ResearchView(vm: vm)
+        case .ascend:   SingularityUpgradesView(vm: vm)
         case .awards:   AchievementsView(vm: vm)
         }
     }
