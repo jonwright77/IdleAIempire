@@ -90,6 +90,16 @@ final class GameViewModel: ObservableObject {
         checkAchievements()
     }
 
+    var canAffordResearch: Bool {
+        for (index, node) in state.researchNodes.enumerated() {
+            guard !node.unlocked else { continue }
+            let isAvailable = index == 0 || state.researchNodes[index - 1].unlocked
+            guard isAvailable else { break }
+            return state.compute >= node.cost
+        }
+        return false
+    }
+
     func save() {
         state.lastSaveDate = Date()
         PersistenceManager.save(state)

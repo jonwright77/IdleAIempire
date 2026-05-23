@@ -33,11 +33,11 @@ struct Upgrade: Codable, Identifiable {
     // Permanent per-upgrade bonuses bought with singularity points.
     // Index 0 = level 1, index 4 = level 5.
     static let singularityLevelData: [(cost: Int, multiplier: Double)] = [
-        (cost: 1,  multiplier: 2.0),
-        (cost: 2,  multiplier: 5.0),
-        (cost: 3,  multiplier: 10.0),
-        (cost: 5,  multiplier: 25.0),
-        (cost: 8,  multiplier: 100.0),
+        (cost: 1,  multiplier: 10.0),
+        (cost: 2,  multiplier: 100.0),
+        (cost: 3,  multiplier: 1_000.0),
+        (cost: 5,  multiplier: 5_000.0),
+        (cost: 8,  multiplier: 10_000.0),
     ]
 
     static func singularityMultiplier(forLevel level: Int) -> Double {

@@ -4,6 +4,8 @@ struct UpgradeRowView: View {
     let upgrade: Upgrade
     let canAfford: Bool
     let canAffordMilestone: Bool
+    /// Combined multiplier of singularity upgrade × research CPS × shard bonus.
+    let fullMultiplier: Double
     let onBuy: () -> Void
     let onBuyMilestone: () -> Void
 
@@ -45,12 +47,12 @@ struct UpgradeRowView: View {
                     .foregroundColor(.textMuted)
 
                 HStack(spacing: 6) {
-                    Text("+\(upgrade.baseComputePerSecond.compactFormatted)/s each")
+                    Text("+\((upgrade.baseComputePerSecond * upgrade.milestoneMultiplier * fullMultiplier).compactFormatted)/s each")
                         .font(.caption2)
                         .foregroundColor(.neonCyan.opacity(0.6))
 
                     if upgrade.owned > 0 {
-                        Text("·  \(upgrade.computePerSecond.compactFormatted)/s total")
+                        Text("·  \((upgrade.computePerSecond * fullMultiplier).compactFormatted)/s total")
                             .font(.caption2)
                             .foregroundColor(
                                 upgrade.milestones > 0 ? .neonGold.opacity(0.85) : .neonCyan.opacity(0.4)
@@ -60,7 +62,7 @@ struct UpgradeRowView: View {
 
                 if upgrade.owned > 0 {
                     let toNext = 100 - (upgrade.owned % 100)
-                    Text("★ milestone in \(toNext)")
+                    Text("★ milestone in \(toNext)  ·  \(upgrade.costToNextMilestone.compactFormatted)")
                         .font(.caption2)
                         .foregroundColor(.neonGold.opacity(0.45))
                 }

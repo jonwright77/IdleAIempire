@@ -69,14 +69,14 @@ struct ContentView: View {
     private var tabBar: some View {
         HStack(spacing: 0) {
             tabButton("UPGRADES", tab: .upgrades)
-            tabButton("RESEARCH", tab: .research)
+            tabButton("RESEARCH", tab: .research, indicator: vm.canAffordResearch && selectedTab != .research)
             tabButton("ASCEND", tab: .ascend)
             tabButton("AWARDS", tab: .awards)
         }
         .background(Color.bgCard)
     }
 
-    private func tabButton(_ label: String, tab: GameTab) -> some View {
+    private func tabButton(_ label: String, tab: GameTab, indicator: Bool = false) -> some View {
         Button {
             selectedTab = tab
         } label: {
@@ -87,6 +87,15 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 10)
                 .background(selectedTab == tab ? Color.neonCyan : Color.clear)
+                .overlay(alignment: .topTrailing) {
+                    if indicator {
+                        Circle()
+                            .fill(Color.neonCyan)
+                            .frame(width: 6, height: 6)
+                            .padding(.trailing, 6)
+                            .padding(.top, 4)
+                    }
+                }
         }
         .buttonStyle(.plain)
         .animation(.easeInOut(duration: 0.15), value: selectedTab)
