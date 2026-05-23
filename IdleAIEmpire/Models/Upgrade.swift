@@ -21,6 +21,15 @@ struct Upgrade: Codable, Identifiable {
         baseComputePerSecond * Double(owned) * milestoneMultiplier
     }
 
+    var nextMilestone: Int { (owned / 100 + 1) * 100 }
+    private var upgradesToNextMilestone: Int { nextMilestone - owned }
+
+    var costToNextMilestone: Double {
+        (0..<upgradesToNextMilestone).reduce(0) { sum, i in
+            sum + baseCost * pow(costMultiplier, Double(owned + i))
+        }
+    }
+
     // Permanent per-upgrade bonuses bought with singularity points.
     // Index 0 = level 1, index 4 = level 5.
     static let singularityLevelData: [(cost: Int, multiplier: Double)] = [

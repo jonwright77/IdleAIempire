@@ -18,9 +18,13 @@ struct UpgradesListView: View {
                         UpgradeRowView(
                             upgrade: upgrade,
                             canAfford: vm.state.compute >= upgrade.cost,
+                            canAffordMilestone: vm.state.compute >= upgrade.costToNextMilestone,
                             onBuy: {
                                 vm.buyUpgrade(id: upgrade.id)
                                 HapticManager.purchase()
+                            },
+                            onBuyMilestone: {
+                                vm.buyToMilestone(id: upgrade.id)
                             }
                         )
                     }

@@ -3,7 +3,9 @@ import SwiftUI
 struct UpgradeRowView: View {
     let upgrade: Upgrade
     let canAfford: Bool
+    let canAffordMilestone: Bool
     let onBuy: () -> Void
+    let onBuyMilestone: () -> Void
 
     @State private var affordableGlow = false
 
@@ -66,22 +68,39 @@ struct UpgradeRowView: View {
 
             Spacer()
 
-            // Buy button
-            Button(action: onBuy) {
-                VStack(spacing: 2) {
-                    Text("BUY")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                    Text(upgrade.cost.compactFormatted)
-                        .font(.caption2)
+            // Buy button — gold milestone mode when affordable, otherwise normal
+            if canAffordMilestone {
+                Button(action: onBuyMilestone) {
+                    VStack(spacing: 2) {
+                        Text("★ TO \(upgrade.nextMilestone)")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                        Text(upgrade.costToNextMilestone.compactFormatted)
+                            .font(.caption2)
+                    }
+                    .foregroundColor(.bgPrimary)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(Color.neonGold)
+                    .cornerRadius(8)
                 }
-                .foregroundColor(canAfford ? .bgPrimary : .textMuted)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .background(canAfford ? Color.neonCyan : Color.bgPrimary)
-                .cornerRadius(8)
+            } else {
+                Button(action: onBuy) {
+                    VStack(spacing: 2) {
+                        Text("BUY")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                        Text(upgrade.cost.compactFormatted)
+                            .font(.caption2)
+                    }
+                    .foregroundColor(canAfford ? .bgPrimary : .textMuted)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(canAfford ? Color.neonCyan : Color.bgPrimary)
+                    .cornerRadius(8)
+                }
+                .disabled(!canAfford)
             }
-            .disabled(!canAfford)
         }
         .padding(14)
         .background(Color.bgCard)
@@ -105,6 +124,7 @@ struct UpgradeRowView: View {
     }
 
     private var borderColor: Color {
+        if canAffordMilestone { return Color.neonGold.opacity(0.7) }
         if upgrade.milestones > 0 { return Color.neonGold.opacity(0.35) }
         if affordableGlow { return Color.neonCyan.opacity(0.8) }
         if canAfford { return Color.neonCyan.opacity(0.35) }

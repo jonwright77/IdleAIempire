@@ -48,6 +48,17 @@ final class GameViewModel: ObservableObject {
         checkAchievements()
     }
 
+    func buyToMilestone(id: String) {
+        guard let index = state.upgrades.firstIndex(where: { $0.id == id }) else { return }
+        let upgrade = state.upgrades[index]
+        let totalCost = upgrade.costToNextMilestone
+        guard state.compute >= totalCost else { return }
+        state.compute -= totalCost
+        state.upgrades[index].owned = upgrade.nextMilestone
+        HapticManager.milestone()
+        checkAchievements()
+    }
+
     func performPrestige() {
         state.singularityShards += 1
         state.singularityPoints += 1
