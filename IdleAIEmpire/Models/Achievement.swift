@@ -24,5 +24,7 @@ struct Achievement: Codable, Identifiable {
         Achievement(id: "compute_1t",        name: "Trillionaire",     description: "Accumulate 1,000,000,000,000 Compute.",      icon: "chart.line.uptrend.xyaxis",         unlocked: false),
         Achievement(id: "first_prestige",    name: "Transcendent",     description: "Perform your first Singularity.",            icon: "sparkles",                          unlocked: false),
         Achievement(id: "prestige_5",        name: "Eternal",          description: "Perform 5 Singularities.",                   icon: "infinity",                          unlocked: false),
+        Achievement(id: "first_new_planet",  name: "Planet Hopper",    description: "Unlock a second planet.",                    icon: "globe.europe.africa.fill",          unlocked: false),
+        Achievement(id: "all_planets",       name: "Solar Sovereign",  description: "Unlock all 9 planets.",                      icon: "sun.max.fill",                      unlocked: false),
     ]
 }

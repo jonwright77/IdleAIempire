@@ -6,6 +6,7 @@ final class GameViewModel: ObservableObject {
     @Published private(set) var pendingOfflineEarnings: Double = 0
     @Published var showOfflinePopup = false
     @Published private(set) var toastAchievement: Achievement?
+    @Published private(set) var prestigeFlashTrigger: Bool = false
 
     private var tickTimer: AnyCancellable?
     private var saveTimer: AnyCancellable?
@@ -16,92 +17,138 @@ final class GameViewModel: ObservableObject {
 
     init() {
         var loaded = PersistenceManager.load() ?? GameState()
-        loaded.mergeNewCatalogEntries()
-        loaded.mergeNewResearchNodes()
+        loaded.mergeAll()
         loaded.mergeNewAchievements()
-        let offline = Self.offlineEarnings(for: loaded)
-        loaded.compute += offline
+
+        // Compute offline earnings before mutating state so we can show the popup.
+        let idx = loaded.activePlanetIndex
+        let planet = loaded.planets[idx]
+        let elapsed = Date().timeIntervalSince(planet.lastSaveDate)
+        let offlineAmount = planet.effectiveComputePerSecond * min(elapsed, planet.offlineCap)
+
+        Self.applyOfflineEarnings(to: &loaded)
         self.state = loaded
-        if offline >= 1 {
-            self.pendingOfflineEarnings = offline
+
+        if offlineAmount >= 1 {
+            self.pendingOfflineEarnings = offlineAmount
             self.showOfflinePopup = true
         }
         startTimers()
     }
 
+    // MARK: - Convenience
+
+    var activePlanet: PlanetBoard {
+        get { state.planets[state.activePlanetIndex] }
+        set { state.planets[state.activePlanetIndex] = newValue }
+    }
+
+    var activePlanetDefinition: PlanetDefinition {
+        PlanetDefinition.all[state.activePlanetIndex]
+    }
+
+    var canPrestige: Bool {
+        activePlanet.compute >= activePlanetDefinition.singularityThreshold
+    }
+
+    var canUnlockNextPlanet: Bool {
+        let nextIndex = state.activePlanetIndex + 1
+        guard nextIndex < PlanetDefinition.all.count else { return false }
+        guard !state.planets[nextIndex].unlocked else { return false }
+        return (activePlanet.upgrades.last?.owned ?? 0) >= 100
+    }
+
+    var canAffordResearch: Bool {
+        let nodes = activePlanet.researchNodes
+        for (index, node) in nodes.enumerated() {
+            guard !node.unlocked else { continue }
+            let isAvailable = index == 0 || nodes[index - 1].unlocked
+            guard isAvailable else { break }
+            return activePlanet.compute >= node.cost
+        }
+        return false
+    }
+
     // MARK: - Actions
 
     func tap() {
-        state.compute += state.effectiveComputePerTap
+        activePlanet.compute += activePlanet.effectiveComputePerTap
         checkAchievements()
     }
 
     func buyUpgrade(id: String) {
-        guard let index = state.upgrades.firstIndex(where: { $0.id == id }) else { return }
-        let upgrade = state.upgrades[index]
-        guard state.compute >= upgrade.cost else { return }
-        state.compute -= upgrade.cost
-        state.upgrades[index].owned += 1
-        if state.upgrades[index].owned % 100 == 0 {
+        guard let index = activePlanet.upgrades.firstIndex(where: { $0.id == id }) else { return }
+        let upgrade = activePlanet.upgrades[index]
+        guard activePlanet.compute >= upgrade.cost else { return }
+        activePlanet.compute -= upgrade.cost
+        activePlanet.upgrades[index].owned += 1
+        if activePlanet.upgrades[index].owned % 100 == 0 {
             HapticManager.milestone()
         }
         checkAchievements()
     }
 
     func buyToMilestone(id: String) {
-        guard let index = state.upgrades.firstIndex(where: { $0.id == id }) else { return }
-        let upgrade = state.upgrades[index]
+        guard let index = activePlanet.upgrades.firstIndex(where: { $0.id == id }) else { return }
+        let upgrade = activePlanet.upgrades[index]
         let totalCost = upgrade.costToNextMilestone
-        guard state.compute >= totalCost else { return }
-        state.compute -= totalCost
-        state.upgrades[index].owned = upgrade.nextMilestone
+        guard activePlanet.compute >= totalCost else { return }
+        activePlanet.compute -= totalCost
+        activePlanet.upgrades[index].owned = upgrade.nextMilestone
         HapticManager.milestone()
         checkAchievements()
     }
 
     func performPrestige() {
-        state.singularityShards += 1
-        state.singularityPoints += 1
-        state.compute = 0
-        for i in state.upgrades.indices { state.upgrades[i].owned = 0 }
-        for i in state.researchNodes.indices { state.researchNodes[i].unlocked = false }
+        activePlanet.singularityShards += 1
+        activePlanet.singularityPoints += 1
+        activePlanet.compute = 0
+        for i in activePlanet.upgrades.indices { activePlanet.upgrades[i].owned = 0 }
+        for i in activePlanet.researchNodes.indices { activePlanet.researchNodes[i].unlocked = false }
         HapticManager.prestige()
+        prestigeFlashTrigger.toggle()
         checkAchievements()
         save()
     }
 
     func buySingularityUpgrade(upgradeId: String) {
-        let currentLevel = state.singularityUpgradeLevels[upgradeId] ?? 0
+        let currentLevel = activePlanet.singularityUpgradeLevels[upgradeId] ?? 0
         guard currentLevel < Upgrade.singularityLevelData.count else { return }
         let cost = Upgrade.singularityLevelData[currentLevel].cost
-        guard state.singularityPoints >= cost else { return }
-        state.singularityPoints -= cost
-        state.singularityUpgradeLevels[upgradeId] = currentLevel + 1
+        guard activePlanet.singularityPoints >= cost else { return }
+        activePlanet.singularityPoints -= cost
+        activePlanet.singularityUpgradeLevels[upgradeId] = currentLevel + 1
         HapticManager.purchase()
     }
 
     func unlockResearch(id: String) {
-        guard let index = state.researchNodes.firstIndex(where: { $0.id == id }) else { return }
-        let node = state.researchNodes[index]
-        guard !node.unlocked, state.compute >= node.cost else { return }
-        if index > 0 { guard state.researchNodes[index - 1].unlocked else { return } }
-        state.compute -= node.cost
-        state.researchNodes[index].unlocked = true
+        guard let index = activePlanet.researchNodes.firstIndex(where: { $0.id == id }) else { return }
+        let node = activePlanet.researchNodes[index]
+        guard !node.unlocked, activePlanet.compute >= node.cost else { return }
+        if index > 0 { guard activePlanet.researchNodes[index - 1].unlocked else { return } }
+        activePlanet.compute -= node.cost
+        activePlanet.researchNodes[index].unlocked = true
         checkAchievements()
     }
 
-    var canAffordResearch: Bool {
-        for (index, node) in state.researchNodes.enumerated() {
-            guard !node.unlocked else { continue }
-            let isAvailable = index == 0 || state.researchNodes[index - 1].unlocked
-            guard isAvailable else { break }
-            return state.compute >= node.cost
-        }
-        return false
+    func switchPlanet(to index: Int) {
+        guard index < state.planets.count, state.planets[index].unlocked else { return }
+        state.activePlanetIndex = index
+    }
+
+    func unlockNextPlanet() {
+        guard canUnlockNextPlanet else { return }
+        let nextIndex = state.activePlanetIndex + 1
+        state.planets[nextIndex].unlocked = true
+        HapticManager.milestone()
+        checkAchievements()
+        save()
     }
 
     func save() {
-        state.lastSaveDate = Date()
+        for i in state.planets.indices {
+            state.planets[i].lastSaveDate = Date()
+        }
         PersistenceManager.save(state)
     }
 
@@ -113,12 +160,18 @@ final class GameViewModel: ObservableObject {
     func handleForeground() {
         guard let since = backgroundedAt else { return }
         backgroundedAt = nil
-        let elapsed = Date().timeIntervalSince(since)
-        let offline = state.effectiveComputePerSecond * min(elapsed, state.offlineCap)
-        guard offline >= 1 else { return }
-        state.compute += offline
-        pendingOfflineEarnings = offline
-        showOfflinePopup = true
+        var activePlanetOffline = 0.0
+        for i in state.planets.indices where state.planets[i].unlocked {
+            let elapsed = Date().timeIntervalSince(since)
+            let offline = state.planets[i].effectiveComputePerSecond * min(elapsed, state.planets[i].offlineCap)
+            guard offline >= 1 else { continue }
+            state.planets[i].compute += offline
+            if i == state.activePlanetIndex { activePlanetOffline = offline }
+        }
+        if activePlanetOffline >= 1 {
+            pendingOfflineEarnings = activePlanetOffline
+            showOfflinePopup = true
+        }
     }
 
     // MARK: - Private
@@ -128,9 +181,10 @@ final class GameViewModel: ObservableObject {
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
-                self.state.compute += self.state.effectiveComputePerSecond * self.tickRate
-                if self.state.isAutoTapping {
-                    self.state.compute += self.state.effectiveComputePerTap * self.tickRate
+                let idx = self.state.activePlanetIndex
+                self.state.planets[idx].compute += self.state.planets[idx].effectiveComputePerSecond * self.tickRate
+                if self.state.planets[idx].isAutoTapping {
+                    self.state.planets[idx].compute += self.state.planets[idx].effectiveComputePerTap * self.tickRate
                 }
                 self.checkAchievements()
             }
@@ -140,9 +194,13 @@ final class GameViewModel: ObservableObject {
             .sink { [weak self] _ in self?.save() }
     }
 
-    private static func offlineEarnings(for state: GameState) -> Double {
-        let elapsed = Date().timeIntervalSince(state.lastSaveDate)
-        return state.effectiveComputePerSecond * min(elapsed, state.offlineCap)
+    private static func applyOfflineEarnings(to state: inout GameState) {
+        for i in state.planets.indices where state.planets[i].unlocked {
+            let elapsed = Date().timeIntervalSince(state.planets[i].lastSaveDate)
+            let offline = state.planets[i].effectiveComputePerSecond * min(elapsed, state.planets[i].offlineCap)
+            guard offline >= 1 else { continue }
+            state.planets[i].compute += offline
+        }
     }
 
     // MARK: - Achievements
@@ -157,39 +215,35 @@ final class GameViewModel: ObservableObject {
         }
     }
 
-    private func isUnlocked(_ a: Achievement) -> Bool {
-        switch a.id {
-        case "first_gpu":         return owned("gpu") >= 1
-        case "first_server_rack": return owned("server_rack") >= 1
-        case "first_data_centre": return owned("data_centre") >= 1
-        case "first_ai_cluster":  return owned("ai_cluster") >= 1
-        case "first_orbital":     return owned("orbital_station") >= 1
-        case "first_planetary":   return owned("planetary_grid") >= 1
-        case "auto_tapper":       return state.isAutoTapping
-        case "first_research":    return state.researchNodes.contains { $0.unlocked }
-        case "all_base_research": return state.researchNodes.prefix(6).allSatisfy { $0.unlocked }
-        case "compute_1k":        return state.compute >= 1_000
-        case "compute_1m":        return state.compute >= 1_000_000
-        case "compute_1b":        return state.compute >= 1_000_000_000
-        case "compute_1t":        return state.compute >= 1_000_000_000_000
-        case "first_prestige":    return state.singularityShards >= 1
-        case "prestige_5":        return state.singularityShards >= 5
-        default:                  return false
-        }
-    }
-
-    private func owned(_ id: String) -> Int {
-        state.upgrades.first { $0.id == id }?.owned ?? 0
-    }
-
     private func showToast(_ achievement: Achievement) {
-        HapticManager.purchase()
         toastTask?.cancel()
         toastAchievement = achievement
-        let task = DispatchWorkItem { [weak self] in
-            self?.toastAchievement = nil
-        }
+        let task = DispatchWorkItem { [weak self] in self?.toastAchievement = nil }
         toastTask = task
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: task)
+    }
+
+    private func isUnlocked(_ achievement: Achievement) -> Bool {
+        let planet = activePlanet
+        switch achievement.id {
+        case "first_gpu":         return planet.upgrades.contains { $0.id == "gpu" && $0.owned >= 1 }
+        case "first_server_rack": return planet.upgrades.contains { $0.id == "server_rack" && $0.owned >= 1 }
+        case "first_data_centre": return planet.upgrades.contains { $0.id == "data_centre" && $0.owned >= 1 }
+        case "first_ai_cluster":  return planet.upgrades.contains { $0.id == "ai_cluster" && $0.owned >= 1 }
+        case "first_orbital":     return planet.upgrades.contains { $0.id == "orbital_station" && $0.owned >= 1 }
+        case "first_planetary":   return planet.upgrades.contains { $0.id == "planetary_grid" && $0.owned >= 1 }
+        case "auto_tapper":       return planet.isAutoTapping
+        case "first_research":    return planet.researchNodes.contains { $0.unlocked }
+        case "all_base_research": return planet.researchNodes.prefix(6).allSatisfy { $0.unlocked }
+        case "compute_1k":        return planet.compute >= 1_000
+        case "compute_1m":        return planet.compute >= 1_000_000
+        case "compute_1b":        return planet.compute >= 1_000_000_000
+        case "compute_1t":        return planet.compute >= 1_000_000_000_000
+        case "first_prestige":    return state.planets.contains { $0.singularityShards >= 1 }
+        case "prestige_5":        return state.planets.contains { $0.singularityShards >= 5 }
+        case "first_new_planet":  return state.planets.dropFirst().contains { $0.unlocked }
+        case "all_planets":       return state.planets.allSatisfy { $0.unlocked }
+        default:                  return false
+        }
     }
 }

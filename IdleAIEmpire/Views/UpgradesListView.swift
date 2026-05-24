@@ -14,15 +14,15 @@ struct UpgradesListView: View {
 
             ScrollView {
                 VStack(spacing: 8) {
-                    ForEach(vm.state.upgrades) { upgrade in
-                        let level = vm.state.singularityUpgradeLevels[upgrade.id] ?? 0
+                    ForEach(vm.activePlanet.upgrades) { upgrade in
+                        let level = vm.activePlanet.singularityUpgradeLevels[upgrade.id] ?? 0
                         let fullMultiplier = Upgrade.singularityMultiplier(forLevel: level)
-                            * vm.state.effectiveCPSMultiplier
-                            * vm.state.shardMultiplier
+                            * vm.activePlanet.effectiveCPSMultiplier
+                            * vm.activePlanet.shardMultiplier
                         UpgradeRowView(
                             upgrade: upgrade,
-                            canAfford: vm.state.compute >= upgrade.cost,
-                            canAffordMilestone: vm.state.compute >= upgrade.costToNextMilestone,
+                            canAfford: vm.activePlanet.compute >= upgrade.cost,
+                            canAffordMilestone: vm.activePlanet.compute >= upgrade.costToNextMilestone,
                             fullMultiplier: fullMultiplier,
                             onBuy: {
                                 vm.buyUpgrade(id: upgrade.id)

@@ -54,7 +54,7 @@ struct TapButtonView: View {
     var body: some View {
         VStack(spacing: 8) {
             ZStack {
-                if vm.state.isAutoTapping {
+                if vm.activePlanet.isAutoTapping {
                     AutoTapRing()
                 }
 
@@ -68,7 +68,7 @@ struct TapButtonView: View {
                         VStack(spacing: 6) {
                             Text("⚡")
                                 .font(.system(size: 52))
-                            Text("+\(vm.state.effectiveComputePerTap.compactFormatted)")
+                            Text("+\(vm.activePlanet.effectiveComputePerTap.compactFormatted)")
                                 .font(.caption)
                                 .fontWeight(.semibold)
                                 .foregroundColor(.neonCyan)
@@ -84,7 +84,7 @@ struct TapButtonView: View {
                 }
             }
 
-            if vm.state.isAutoTapping {
+            if vm.activePlanet.isAutoTapping {
                 Text("● AUTO")
                     .font(.system(size: 10, weight: .bold, design: .monospaced))
                     .foregroundColor(.neonCyan.opacity(0.6))
@@ -100,7 +100,7 @@ struct TapButtonView: View {
         withAnimation(.easeOut(duration: 0.08)) { scale = 0.91 }
         withAnimation(.spring(response: 0.25, dampingFraction: 0.45).delay(0.08)) { scale = 1.0 }
 
-        let p = TapParticle(label: "+\(vm.state.effectiveComputePerTap.compactFormatted)")
+        let p = TapParticle(label: "+\(vm.activePlanet.effectiveComputePerTap.compactFormatted)")
         particles.append(p)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
             particles.removeAll { $0.id == p.id }

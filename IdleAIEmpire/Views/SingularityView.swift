@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SingularityView: View {
+    let planetName: String
     let currentShards: Int
     let currentPoints: Int
     let onConfirm: () -> Void
@@ -21,11 +22,11 @@ struct SingularityView: View {
                         .font(.system(size: 48))
                         .foregroundColor(.neonPurple)
 
-                    Text("SINGULARITY")
+                    Text(planetName.uppercased())
                         .font(.title.bold())
                         .foregroundColor(.white)
 
-                    Text("Your empire transcends its current form.")
+                    Text("Your empire on this world transcends its current form.")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
@@ -60,7 +61,7 @@ struct SingularityView: View {
                         onConfirm()
                         dismiss()
                     } label: {
-                        Text("INITIATE SINGULARITY")
+                        Text("INITIATE \(planetName.uppercased())")
                             .font(.headline)
                             .foregroundColor(.bgPrimary)
                             .frame(maxWidth: .infinity)
@@ -112,5 +113,5 @@ struct SingularityView: View {
 }
 
 #Preview {
-    SingularityView(currentShards: 2, currentPoints: 3, onConfirm: {})
+    SingularityView(planetName: "Singularity", currentShards: 2, currentPoints: 3, onConfirm: {})
 }

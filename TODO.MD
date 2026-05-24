@@ -53,13 +53,13 @@
 - [x] Extend upgrade ladder to 12 tiers (GPU → Planetary Grid)
 - [x] Play-test and verify progression feels rewarding
 - [x] Tune passive income pacing
-- [x] Upgrade milestone bonuses: ×5 per 100 owned (stacking), keeps early upgrades relevant
+- [x] Upgrade milestone bonuses: ×5000 per 100 owned (stacking), keeps early upgrades relevant
 
 ---
 
 # Phase 6 — Polish ✅
 
-- [x] Add number abbreviations (compactFormatted — K/M/B/T/Q)
+- [x] Add number abbreviations (compactFormatted — K/M/B/T/Q/Qi/Sx/Sp/Oc/No/Dc)
 - [x] Add offline earnings popup
 - [x] Add sound placeholders (HapticManager — light tap, success on purchase)
 - [x] Add particle effect (floating "+X" label on tap)
@@ -94,7 +94,7 @@
 
 The moment the game becomes truly idle. Players should feel their empire running without them.
 
-- [x] Auto-Tapper unlocked after buying 25 GPUs (adds effectiveComputePerTap/sec to the tick)
+- [x] Auto-Tapper unlocked after buying 25 of the first upgrade (adds effectiveComputePerTap/sec to the tick)
 - [x] Pulsing ring around tap button when active
 - [x] "● AUTO" label below button when active
 
@@ -104,12 +104,12 @@ The moment the game becomes truly idle. Players should feel their empire running
 
 Core replayability. Resets feel like acceleration, not punishment.
 
-- [x] Unlock Singularity at 1 Trillion compute
+- [x] Unlock Singularity at 1 Trillion compute (Neptune); scales ×50 per planet
 - [x] Reset upgrades and compute; keep research nodes and shards
-- [x] Award 1 Singularity Shard per prestige — multiplier is ×1.1^shards on all compute
+- [x] Award 1 Singularity Shard per prestige — multiplier is ×1.1^shards on all compute for that planet
 - [x] Show shards and multiplier in Stats header (purple, appears after first prestige)
 - [x] Confirmation sheet: shows earnings, what's kept, what's reset
-- [x] "SINGULARITY READY" banner appears in UI when threshold is met
+- [x] Planet-flavoured prestige name (e.g. "Ice Collapse" on Uranus)
 
 ---
 
@@ -117,8 +117,8 @@ Core replayability. Resets feel like acceleration, not punishment.
 
 Milestone markers that reward progress and give players a sense of history.
 
-- [x] 15 achievements: upgrade milestones, compute thresholds (1K→1T), auto-tap, research, prestige
-- [x] Persisted in GameState (Codable), merged on load like upgrades and research
+- [x] 17 achievements: upgrade milestones, compute thresholds (1K→1T), auto-tap, research, prestige, planet unlocks
+- [x] Persisted in GameState (Codable), merged on load
 - [x] Toast banner slides in from top on unlock (3s, success haptic)
 - [x] AWARDS tab added to tab bar with full achievement list (locked shown at 45% opacity)
 
@@ -135,11 +135,31 @@ Milestone markers that reward progress and give players a sense of history.
 
 ---
 
-# Phase 13 — Monetisation Foundation
+# Phase 13 — Multi-Planet Expansion ✅
 
-Only start after Phase 10 is validated. Monetisation should enhance, never gate.
+Nine self-contained game boards spanning the Solar System.
+
+- [x] 9 planets: Neptune → Uranus → Saturn → Jupiter → Mars → Earth → Venus → Mercury → Sun
+- [x] Each planet: 12 upgrades, 10 research nodes, own prestige economy, own resource name
+- [x] Planet scaling: ×50 cost/CPS per planet so each takes similar real-world time
+- [x] Unlock condition: 100 of the final upgrade on the current planet
+- [x] All unlocked planets earn offline simultaneously
+- [x] Shards are per-planet (independent prestige economies)
+- [x] Per-planet accent colour themes injected via SwiftUI environment
+- [x] Planet switcher bar at top of screen; Solar System sheet with lock/progress state
+- [x] Unlock Next Planet banner when condition is met
+- [x] Extended number formatting: K → Dc (handles Sun-tier numbers ~10²⁵)
+- [x] Save migration: old Neptune-only saves upgrade automatically to new [PlanetBoard] format
+- [x] 2 new achievements: Planet Hopper (first new planet), Solar Sovereign (all 9 planets)
+
+---
+
+# Phase 14 — Monetisation Foundation
+
+Only start after Phase 13 is validated. Monetisation should enhance, never gate.
 
 - [ ] Rewarded ad: ×2 compute for 30 seconds
+- [ ] Global Shard multiplier unlock via rewarded ad (cross-planet bonus, as hinted in Phase 13)
 - [ ] Remove Ads IAP (StoreKit)
 - [ ] Cosmetic skins for tap button (no gameplay advantage)
 - [ ] Audit every placement: would a player feel respected or exploited?

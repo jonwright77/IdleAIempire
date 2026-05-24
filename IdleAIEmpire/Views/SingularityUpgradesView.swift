@@ -14,7 +14,7 @@ struct SingularityUpgradesView: View {
                 HStack(spacing: 4) {
                     Text("◈")
                         .foregroundColor(.neonPurple)
-                    Text("\(vm.state.singularityPoints) pts available")
+                    Text("\(vm.activePlanet.singularityPoints) pts available")
                         .font(.caption.bold())
                         .foregroundColor(.neonPurple)
                 }
@@ -22,7 +22,7 @@ struct SingularityUpgradesView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
 
-            if vm.state.singularityPoints == 0 && vm.state.singularityUpgradeLevels.isEmpty {
+            if vm.activePlanet.singularityPoints == 0 && vm.activePlanet.singularityUpgradeLevels.isEmpty {
                 VStack(spacing: 8) {
                     Text("◈")
                         .font(.system(size: 36))
@@ -37,10 +37,10 @@ struct SingularityUpgradesView: View {
             } else {
                 ScrollView {
                     VStack(spacing: 8) {
-                        ForEach(vm.state.upgrades) { upgrade in
-                            let level = vm.state.singularityUpgradeLevels[upgrade.id] ?? 0
+                        ForEach(vm.activePlanet.upgrades) { upgrade in
+                            let level = vm.activePlanet.singularityUpgradeLevels[upgrade.id] ?? 0
                             let maxed = level >= Upgrade.singularityLevelData.count
-                            let canAfford = !maxed && vm.state.singularityPoints >= Upgrade.singularityLevelData[level].cost
+                            let canAfford = !maxed && vm.activePlanet.singularityPoints >= Upgrade.singularityLevelData[level].cost
                             SingularityUpgradeRow(
                                 upgrade: upgrade,
                                 level: level,

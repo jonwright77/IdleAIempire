@@ -7,20 +7,28 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var selectedTab: GameTab = .upgrades
     @State private var showSingularity = false
+    @State private var showPlanetSelect = false
     @State private var prestigeFlashOpacity: Double = 0
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+
+    private var accent: Color { vm.activePlanetDefinition.accentColor }
 
     var body: some View {
         ZStack {
             Color.bgPrimary.ignoresSafeArea()
 
             VStack(spacing: 0) {
+                planetSwitcherBar
                 StatsHeaderView(vm: vm)
                 TapButtonView(vm: vm)
                 tabBar
 
-                if vm.state.canPrestige {
+                if vm.canPrestige {
                     singularityBanner
+                }
+
+                if vm.canUnlockNextPlanet {
+                    unlockNextPlanetBanner
                 }
 
                 tabContent
@@ -32,11 +40,12 @@ struct ContentView: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         }
+        .environment(\.planetAccent, accent)
         .onChange(of: scenePhase) { phase in
             if phase == .background { vm.handleBackground() }
-            if phase == .active { vm.handleForeground() }
+            if phase == .active     { vm.handleForeground() }
         }
-        .onChange(of: vm.state.singularityShards) { _ in
+        .onChange(of: vm.prestigeFlashTrigger) { _ in
             withAnimation(.easeOut(duration: 0.12)) { prestigeFlashOpacity = 0.45 }
             withAnimation(.easeOut(duration: 0.7).delay(0.12)) { prestigeFlashOpacity = 0 }
         }
@@ -45,10 +54,18 @@ struct ContentView: View {
                 .presentationDetents([.medium])
         }
         .sheet(isPresented: $showSingularity) {
-            SingularityView(currentShards: vm.state.singularityShards, currentPoints: vm.state.singularityPoints) {
+            SingularityView(
+                planetName: vm.activePlanetDefinition.singularityName,
+                currentShards: vm.activePlanet.singularityShards,
+                currentPoints: vm.activePlanet.singularityPoints
+            ) {
                 vm.performPrestige()
             }
             .presentationDetents([.large])
+        }
+        .sheet(isPresented: $showPlanetSelect) {
+            PlanetSelectView(vm: vm)
+                .presentationDetents([.large])
         }
         .overlay(alignment: .top) {
             if let achievement = vm.toastAchievement {
@@ -66,12 +83,43 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Planet switcher bar
+
+    private var planetSwitcherBar: some View {
+        Button { showPlanetSelect = true } label: {
+            HStack(spacing: 8) {
+                Text(vm.activePlanetDefinition.emoji)
+                    .font(.body)
+                Text(vm.activePlanetDefinition.name.uppercased())
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .tracking(2)
+                    .foregroundColor(accent)
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 9, weight: .bold))
+                    .foregroundColor(accent.opacity(0.7))
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .frame(maxWidth: .infinity)
+            .background(Color.bgCard)
+            .overlay(
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundColor(accent.opacity(0.2)),
+                alignment: .bottom
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Tab bar
+
     private var tabBar: some View {
         HStack(spacing: 0) {
             tabButton("UPGRADES", tab: .upgrades)
             tabButton("RESEARCH", tab: .research, indicator: vm.canAffordResearch && selectedTab != .research)
-            tabButton("ASCEND", tab: .ascend)
-            tabButton("AWARDS", tab: .awards)
+            tabButton("ASCEND",   tab: .ascend)
+            tabButton("AWARDS",   tab: .awards)
         }
         .background(Color.bgCard)
     }
@@ -86,11 +134,11 @@ struct ContentView: View {
                 .foregroundColor(selectedTab == tab ? .bgPrimary : .textMuted)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 10)
-                .background(selectedTab == tab ? Color.neonCyan : Color.clear)
+                .background(selectedTab == tab ? accent : Color.clear)
                 .overlay(alignment: .topTrailing) {
                     if indicator {
                         Circle()
-                            .fill(Color.neonCyan)
+                            .fill(accent)
                             .frame(width: 6, height: 6)
                             .padding(.trailing, 6)
                             .padding(.top, 4)
@@ -101,10 +149,12 @@ struct ContentView: View {
         .animation(.easeInOut(duration: 0.15), value: selectedTab)
     }
 
+    // MARK: - Banners
+
     private var singularityBanner: some View {
         Button { showSingularity = true } label: {
             HStack {
-                Text("◈  SINGULARITY READY")
+                Text("◈  \(vm.activePlanetDefinition.singularityName.uppercased()) READY")
                     .font(.system(size: 11, weight: .bold, design: .monospaced))
                     .tracking(2)
                     .foregroundColor(.neonPurple)
@@ -116,15 +166,33 @@ struct ContentView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .background(Color.neonPurple.opacity(0.1))
-            .overlay(
-                Rectangle()
-                    .frame(height: 1)
-                    .foregroundColor(Color.neonPurple.opacity(0.25)),
-                alignment: .bottom
-            )
+            .overlay(Rectangle().frame(height: 1).foregroundColor(Color.neonPurple.opacity(0.25)), alignment: .bottom)
         }
         .buttonStyle(.plain)
     }
+
+    private var unlockNextPlanetBanner: some View {
+        let nextDef = PlanetDefinition.all[vm.state.activePlanetIndex + 1]
+        return Button { vm.unlockNextPlanet() } label: {
+            HStack {
+                Text("\(nextDef.emoji)  UNLOCK \(nextDef.name.uppercased())")
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .tracking(2)
+                    .foregroundColor(nextDef.accentColor)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption.bold())
+                    .foregroundColor(nextDef.accentColor.opacity(0.7))
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(nextDef.accentColor.opacity(0.1))
+            .overlay(Rectangle().frame(height: 1).foregroundColor(nextDef.accentColor.opacity(0.25)), alignment: .bottom)
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Tab content
 
     @ViewBuilder
     private var tabContent: some View {

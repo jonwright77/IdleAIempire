@@ -2,20 +2,24 @@
 
 ---
 
-# Current Milestone (2026-05-17)
+# Current Milestone (2026-05-24)
 
-**Status:** Phases 1–11 complete.
+**Status:** Phases 1–13 complete.
 
 What's built:
-- 12 upgrade tiers (GPU → Planetary Grid)
-- 10 research nodes with permanent multipliers (Compute cost, linear unlock)
-- Auto-Tapper (25 GPUs → 1 passive tap/sec, pulsing ring UI)
-- Prestige / Singularity (reset at 1T, shard multiplier ×1.1^shards)
-- 15 achievements with toast notifications and AWARDS screen
-- Offline earnings on cold launch and foreground return (up to 16h)
-- UPGRADES / RESEARCH / AWARDS tab UI
+- 9 planets: Neptune → Uranus → Saturn → Jupiter → Mars → Earth → Venus → Mercury → The Sun
+- 12 upgrade tiers per planet (GPU → Planetary Grid on Neptune; planet-themed names elsewhere)
+- 10 research nodes per planet with permanent multipliers (CPS, tap, offline cap)
+- Auto-Tapper (25 of first upgrade → passive tap/sec, pulsing ring UI)
+- Prestige / Singularity per planet (shard multiplier ×1.1^shards, planet-flavoured names)
+- 17 achievements with toast notifications and AWARDS screen
+- Offline earnings for all unlocked planets simultaneously (up to 16h each)
+- Per-planet accent colour themes via SwiftUI environment injection
+- Planet switcher bar + Solar System selection sheet
+- Extended number formatting: K → Dc (handles numbers to 10³³+)
+- UPGRADES / RESEARCH / ASCEND / AWARDS tab UI
 
-Next: Phase 12 (Sound & Visual Polish), then Phase 13 (Monetisation Foundation).
+Next: Phase 14 (Monetisation Foundation).
 
 ---
 
@@ -92,10 +96,16 @@ Progression should evolve in layers.
 - top research nodes: Autonomous Replication → Planetary Consciousness
 - Prestige / Singularity resets with shard multiplier
 
+### Endgame ✅
+- 9 planets spanning the Solar System (Neptune → Sun)
+- Planet-specific economies: own upgrades, research, prestige, accent colours
+- Sequential unlock (100 of final upgrade on current planet)
+- All unlocked planets earn offline simultaneously
+- Extended number range: K → Dc (10³³+)
+
 ### Systems still to build
-- Sound effects (Phase 12)
-- Visual polish — unlock animations, milestone fanfare (Phase 12)
-- Monetisation (Phase 13)
+- Real sound effects (Phase 12 partial — hooks exist, audio files not added)
+- Monetisation (Phase 14)
 
 ---
 
@@ -103,23 +113,25 @@ Progression should evolve in layers.
 
 | System | Status |
 |--------|--------|
-| Research tree | ✅ Built (10 nodes) |
-| Automation / auto-tap | ✅ Built (25 GPU milestone) |
-| Prestige / Singularity resets | ✅ Built (1T threshold, shard multiplier) |
-| Achievements | ✅ Built (15 achievements, toast) |
-| Sound & visual polish | Phase 12 |
-| Cosmetic upgrades | Phase 13 |
+| Research tree | ✅ Built (10 nodes per planet) |
+| Automation / auto-tap | ✅ Built (25 of first upgrade per planet) |
+| Prestige / Singularity resets | ✅ Built (per-planet, shard multiplier) |
+| Achievements | ✅ Built (17 achievements, toast) |
+| Multi-planet expansion | ✅ Built (9 planets, Neptune → Sun) |
+| Per-planet colour themes | ✅ Built (SwiftUI environment injection) |
+| Sound & visual polish | Phase 12 (haptics done; audio files pending) |
+| Rewarded ads | Phase 14 |
+| Cosmetic upgrades | Phase 14 |
+| Remove Ads IAP | Phase 14 |
 | Daily rewards | Future |
 | Events / limited-time boosts | Future |
-| Multiple resource types | Future |
-| Rare discoveries | Future |
 | Global leaderboard | Future (maybe never) |
 
 ---
 
 # Monetisation Philosophy
 
-Phase 10 is complete — monetisation can now be planned and built (Phase 13).
+Phase 13 is complete — monetisation can now be planned and built (Phase 14).
 
 Monetisation should:
 - enhance progression
@@ -144,7 +156,7 @@ Avoid:
 
 Style:
 - dark UI
-- neon accents (cyan primary — upgrades/tap, purple secondary — research/prestige)
+- neon accents (per-planet accent colour — cyan for Neptune; purple = research/prestige across all planets)
 - glowing stats
 - futuristic dashboards
 - clean monospaced typography

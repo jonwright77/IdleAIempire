@@ -14,11 +14,11 @@ struct ResearchView: View {
 
             ScrollView {
                 VStack(spacing: 8) {
-                    ForEach(Array(vm.state.researchNodes.enumerated()), id: \.element.id) { index, node in
+                    ForEach(Array(vm.activePlanet.researchNodes.enumerated()), id: \.element.id) { index, node in
                         ResearchNodeRow(
                             node: node,
-                            isAvailable: index == 0 || vm.state.researchNodes[index - 1].unlocked,
-                            canAfford: vm.state.compute >= node.cost,
+                            isAvailable: index == 0 || vm.activePlanet.researchNodes[index - 1].unlocked,
+                            canAfford: vm.activePlanet.compute >= node.cost,
                             onUnlock: { vm.unlockResearch(id: node.id) }
                         )
                     }

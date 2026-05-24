@@ -27,6 +27,9 @@
 		1D909053CEF84A68AB3F908A /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4758FC6E7FD447B9A8A08C8C /* Achievement.swift */; };
 		F254D54ADA5C400FA8192F55 /* AchievementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E0CA8062B49268F8F85BE /* AchievementsView.swift */; };
 		A1B2C3D4E5F64A7B8C9D0E1F /* SingularityUpgradesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F64A7B8C9D0E10 /* SingularityUpgradesView.swift */; };
+		AA01000000000002AABBCCDD /* PlanetBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA01000000000001AABBCCDD /* PlanetBoard.swift */; };
+		AA01000000000004AABBCCDD /* PlanetDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA01000000000003AABBCCDD /* PlanetDefinition.swift */; };
+		AA01000000000006AABBCCDD /* PlanetSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA01000000000005AABBCCDD /* PlanetSelectView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +73,9 @@
 		4758FC6E7FD447B9A8A08C8C /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
 		B83E0CA8062B49268F8F85BE /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F64A7B8C9D0E10 /* SingularityUpgradesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingularityUpgradesView.swift; sourceTree = "<group>"; };
+		AA01000000000001AABBCCDD /* PlanetBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetBoard.swift; sourceTree = "<group>"; };
+		AA01000000000003AABBCCDD /* PlanetDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetDefinition.swift; sourceTree = "<group>"; };
+		AA01000000000005AABBCCDD /* PlanetSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetSelectView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -155,6 +161,8 @@
 				5CACD8EF2FB9B14800AAA3AD /* Upgrade.swift */,
 				23E0CFA9F3EB456A83B29A67 /* ResearchNode.swift */,
 				4758FC6E7FD447B9A8A08C8C /* Achievement.swift */,
+				AA01000000000001AABBCCDD /* PlanetBoard.swift */,
+				AA01000000000003AABBCCDD /* PlanetDefinition.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -191,6 +199,7 @@
 				1EFE17D672904740BEF8F404 /* SingularityView.swift */,
 				A1B2C3D4E5F64A7B8C9D0E10 /* SingularityUpgradesView.swift */,
 				B83E0CA8062B49268F8F85BE /* AchievementsView.swift */,
+				AA01000000000005AABBCCDD /* PlanetSelectView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -359,6 +368,9 @@
 				A1B2C3D4E5F64A7B8C9D0E1F /* SingularityUpgradesView.swift in Sources */,
 				1D909053CEF84A68AB3F908A /* Achievement.swift in Sources */,
 				F254D54ADA5C400FA8192F55 /* AchievementsView.swift in Sources */,
+				AA01000000000002AABBCCDD /* PlanetBoard.swift in Sources */,
+				AA01000000000004AABBCCDD /* PlanetDefinition.swift in Sources */,
+				AA01000000000006AABBCCDD /* PlanetSelectView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
