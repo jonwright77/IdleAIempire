@@ -114,8 +114,15 @@ struct GameState: Codable {
 
     mutating func mergeNewResearchNodes() {
         let catalog = ResearchNode.catalog
-        guard researchNodes.count < catalog.count else { return }
-        researchNodes.append(contentsOf: catalog[researchNodes.count...])
+        // Refresh catalog-defined fields on existing nodes so balance changes take effect on old saves.
+        for i in researchNodes.indices where i < catalog.count {
+            var updated = catalog[i]
+            updated.unlocked = researchNodes[i].unlocked
+            researchNodes[i] = updated
+        }
+        if researchNodes.count < catalog.count {
+            researchNodes.append(contentsOf: catalog[researchNodes.count...])
+        }
     }
 
     mutating func mergeNewAchievements() {
