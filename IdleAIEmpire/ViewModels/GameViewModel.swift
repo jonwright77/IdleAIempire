@@ -20,6 +20,13 @@ final class GameViewModel: ObservableObject {
         loaded.mergeAll()
         loaded.mergeNewAchievements()
 
+        // Ascension points can never be lower than total shards earned — fix any drift from older saves.
+        for i in loaded.planets.indices {
+            if loaded.planets[i].singularityPoints < loaded.planets[i].singularityShards {
+                loaded.planets[i].singularityPoints = loaded.planets[i].singularityShards
+            }
+        }
+
         // Compute offline earnings before mutating state so we can show the popup.
         let idx = loaded.activePlanetIndex
         let planet = loaded.planets[idx]
