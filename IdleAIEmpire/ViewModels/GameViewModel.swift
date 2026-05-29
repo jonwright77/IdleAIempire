@@ -21,9 +21,15 @@ final class GameViewModel: ObservableObject {
         loaded.mergeNewAchievements()
 
         // Ascension points can never be lower than total shards earned — fix any drift from older saves.
+        // Compare shards against (spent + available) so we only award the missing difference.
         for i in loaded.planets.indices {
-            if loaded.planets[i].singularityPoints < loaded.planets[i].singularityShards {
-                loaded.planets[i].singularityPoints = loaded.planets[i].singularityShards
+            let planet = loaded.planets[i]
+            let spentPoints = planet.singularityUpgradeLevels.values.reduce(0) { total, level in
+                total + Upgrade.singularityLevelData.prefix(level).reduce(0) { $0 + $1.cost }
+            }
+            let totalAccountedFor = spentPoints + planet.singularityPoints
+            if planet.singularityShards > totalAccountedFor {
+                loaded.planets[i].singularityPoints += planet.singularityShards - totalAccountedFor
             }
         }
 
