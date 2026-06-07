@@ -4,11 +4,20 @@ struct SingularityView: View {
     let planetName: String
     let currentShards: Int
     let currentPoints: Int
+    let shardBase: Double
     let onConfirm: () -> Void
     @Environment(\.dismiss) private var dismiss
 
+    init(planetName: String, currentShards: Int, currentPoints: Int, shardBase: Double = 1.1, onConfirm: @escaping () -> Void) {
+        self.planetName = planetName
+        self.currentShards = currentShards
+        self.currentPoints = currentPoints
+        self.shardBase = shardBase
+        self.onConfirm = onConfirm
+    }
+
     private var newShards: Int { currentShards + 1 }
-    private var newMultiplier: Double { pow(1.1, Double(newShards)) }
+    private var newMultiplier: Double { pow(shardBase, Double(newShards)) }
     private var newPoints: Int { currentPoints + 1 }
 
     var body: some View {

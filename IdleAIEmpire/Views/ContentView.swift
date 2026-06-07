@@ -8,6 +8,7 @@ struct ContentView: View {
     @State private var selectedTab: GameTab = .upgrades
     @State private var showSingularity = false
     @State private var showPlanetSelect = false
+    @State private var showEvent = false
     @State private var prestigeFlashOpacity: Double = 0
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
@@ -29,6 +30,10 @@ struct ContentView: View {
 
                 if vm.canUnlockNextPlanet {
                     unlockNextPlanetBanner
+                }
+
+                if vm.isEventUnlocked {
+                    eventBanner
                 }
 
                 tabContent
@@ -67,6 +72,9 @@ struct ContentView: View {
             PlanetSelectView(vm: vm)
                 .presentationDetents([.large])
         }
+        .sheet(isPresented: $showEvent) {
+            EventBoardView(vm: vm)
+        }
         .overlay(alignment: .top) {
             if let achievement = vm.toastAchievement {
                 AchievementToast(achievement: achievement)
@@ -97,6 +105,16 @@ struct ContentView: View {
                 Image(systemName: "chevron.down")
                     .font(.system(size: 9, weight: .bold))
                     .foregroundColor(accent.opacity(0.7))
+                Spacer()
+                if vm.isEventUnlocked || vm.gems > 0 {
+                    HStack(spacing: 4) {
+                        Text("💎")
+                            .font(.caption)
+                        Text("\(vm.gems)")
+                            .font(.system(size: 11, weight: .bold, design: .monospaced))
+                            .foregroundColor(.neonGold)
+                    }
+                }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
@@ -167,6 +185,32 @@ struct ContentView: View {
             .padding(.vertical, 10)
             .background(Color.neonPurple.opacity(0.1))
             .overlay(Rectangle().frame(height: 1).foregroundColor(Color.neonPurple.opacity(0.25)), alignment: .bottom)
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var eventBanner: some View {
+        let def = EventDefinition.all[0]
+        return Button { showEvent = true } label: {
+            HStack {
+                Text("\(def.emoji)  \(def.name.uppercased()) — TAP TO PLAY")
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .tracking(2)
+                    .foregroundColor(def.accentColor)
+                Spacer()
+                if vm.canAffordEventResearch {
+                    Circle()
+                        .fill(def.accentColor)
+                        .frame(width: 6, height: 6)
+                }
+                Image(systemName: "chevron.right")
+                    .font(.caption.bold())
+                    .foregroundColor(def.accentColor.opacity(0.7))
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(def.accentColor.opacity(0.1))
+            .overlay(Rectangle().frame(height: 1).foregroundColor(def.accentColor.opacity(0.25)), alignment: .bottom)
         }
         .buttonStyle(.plain)
     }

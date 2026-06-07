@@ -4,6 +4,8 @@ struct GameState: Codable {
     var planets: [PlanetBoard]
     var activePlanetIndex: Int
     var achievements: [Achievement]
+    var events: [EventBoard]
+    var gems: Int
 
     init() {
         planets = PlanetDefinition.all.enumerated().map { i, def in
@@ -11,12 +13,14 @@ struct GameState: Codable {
         }
         activePlanetIndex = 0
         achievements = Achievement.catalog
+        events = EventDefinition.all.map { def in EventBoard(definition: def, unlocked: false) }
+        gems = 0
     }
 
     // MARK: - Coding keys
 
     private enum CodingKeys: String, CodingKey {
-        case planets, activePlanetIndex, achievements
+        case planets, activePlanetIndex, achievements, events, gems
     }
 
     // Legacy keys present in pre-planet saves.
@@ -34,6 +38,8 @@ struct GameState: Codable {
             planets = savedPlanets
             activePlanetIndex = (try? c.decode(Int.self, forKey: .activePlanetIndex)) ?? 0
             achievements = (try? c.decode([Achievement].self, forKey: .achievements)) ?? Achievement.catalog
+            events = (try? c.decode([EventBoard].self, forKey: .events)) ?? EventDefinition.all.map { EventBoard(definition: $0, unlocked: false) }
+            gems = (try? c.decode(Int.self, forKey: .gems)) ?? 0
         } else {
             // Old flat save — migrate Neptune's data into planets[0].
             let legacy = try decoder.container(keyedBy: LegacyKeys.self)
@@ -65,6 +71,8 @@ struct GameState: Codable {
             planets = allPlanets
             activePlanetIndex = 0
             achievements = savedAchievements
+            events = EventDefinition.all.map { EventBoard(definition: $0, unlocked: false) }
+            gems = 0
         }
     }
 
@@ -73,6 +81,8 @@ struct GameState: Codable {
         try c.encode(planets, forKey: .planets)
         try c.encode(activePlanetIndex, forKey: .activePlanetIndex)
         try c.encode(achievements, forKey: .achievements)
+        try c.encode(events, forKey: .events)
+        try c.encode(gems, forKey: .gems)
     }
 
     // MARK: - Merge on load (apply any catalog changes to saved data)
@@ -92,6 +102,18 @@ struct GameState: Codable {
         }
         // Clamp activePlanetIndex in case catalog shrank somehow.
         activePlanetIndex = max(0, min(activePlanetIndex, planets.count - 1))
+
+        // Merge events — same pattern as planets.
+        let eventDefs = EventDefinition.all
+        if events.count < eventDefs.count {
+            events.append(contentsOf: eventDefs[events.count...].map { def in
+                EventBoard(definition: def, unlocked: false)
+            })
+        }
+        for i in events.indices where i < eventDefs.count {
+            events[i].mergeUpgrades(catalog: eventDefs[i].upgradeCatalog)
+            events[i].mergeResearch(catalog: eventDefs[i].researchCatalog)
+        }
     }
 
     mutating func mergeNewAchievements() {

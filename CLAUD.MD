@@ -224,6 +224,48 @@ Then add a matching `case` to `isUnlocked(_:)` in `GameViewModel.swift`.
 
 ---
 
+# Monthly Events System
+
+Events are a parallel progression system separate from planets, unlocked after the second planet (Uranus).
+
+## Key Architecture
+- `EventDefinition` (static) — like `PlanetDefinition`, holds catalog for each event. **Never reorder `all` array.**
+- `EventBoard` (Codable) — like `PlanetBoard`, holds mutable state. Key difference: `shardMultiplier = pow(1.5, Double(singularityShards))`
+- `GameState.events: [EventBoard]` + `GameState.gems: Int` — persisted alongside planets
+- `GameViewModel.activeEvent` / `activeEventDefinition` — shortcuts to `state.events[0]`
+- Event actions: `tapEvent()`, `buyEventUpgrade(id:)`, `buyEventUpgradeToMilestone(id:)`, `performEventPrestige()`, `buyEventSingularityUpgrade(upgradeId:)`, `unlockEventResearch(id:)`
+- `checkEventUnlocks()` — called each tick; unlocks June event when `planets[1].unlocked`
+- Events earn offline (included in `applyOfflineEarnings` and `handleForeground`)
+- Events tick passively in the main timer regardless of which view is open
+
+## Gems
+- `GameState.gems: Int` — global currency
+- Earned: 50 gems at owned==500, 100 gems at owned==1000 per upgrade, both planet and event boards
+- Tracked per-board via `gemMilestonesEarned: Set<String>` (key: `"upgradeId_500"`)
+- `PlanetBoard.gemMilestonesEarned` — needs custom Codable (field absent from old saves)
+- Gem shop TBD
+
+## Event Board UI
+- `EventBoardView` — full-screen sheet opened from the event banner in ContentView
+- `EventDefinition.all` is ordered; always append new months, never reorder
+- June event: "Midsummer Bloom", 12 upgrades, 15 research nodes, threshold 1e8, shard base 1.5
+
+## File Map (additions)
+```
+Models/EventBoard.swift        ← mutable event state (shard base 1.5)
+Models/EventDefinition.swift   ← static event catalogs (June = june)
+Views/EventBoardView.swift     ← full event board UI (tap, upgrades, research, ascend)
+```
+
+## Adding a New Monthly Event
+1. Add a `static let monthName` to `EventDefinition` (in `EventDefinition.swift`)
+2. Append to `EventDefinition.all` (never reorder)
+3. Add the event's accent color to `Theme.swift`
+4. Update `checkEventUnlocks()` in `GameViewModel` for the new event's unlock condition
+5. `GameState.mergeAll()` will auto-append the new EventBoard on next launch
+
+---
+
 # Current Phase
 
-Phases 1–13 complete. Next: Phase 14 (Monetisation Foundation).
+Phases 1–13 complete. Phase 14: Monthly Events (June proof of concept complete) + Gem Shop TBD.

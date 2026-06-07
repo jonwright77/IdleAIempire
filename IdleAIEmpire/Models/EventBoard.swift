@@ -1,6 +1,6 @@
 import Foundation
 
-struct PlanetBoard: Codable, Identifiable {
+struct EventBoard: Codable, Identifiable {
     let id: String
     var unlocked: Bool
     var compute: Double
@@ -13,7 +13,7 @@ struct PlanetBoard: Codable, Identifiable {
     var lastSaveDate: Date
     var gemMilestonesEarned: Set<String>
 
-    init(definition: PlanetDefinition, unlocked: Bool) {
+    init(definition: EventDefinition, unlocked: Bool) {
         self.id = definition.id
         self.unlocked = unlocked
         self.compute = 0
@@ -27,7 +27,7 @@ struct PlanetBoard: Codable, Identifiable {
         self.gemMilestonesEarned = []
     }
 
-    // MARK: - Codable (custom to gracefully handle gemMilestonesEarned absent from old saves)
+    // MARK: - Codable (safe decoding for future schema changes)
 
     private enum CodingKeys: String, CodingKey {
         case id, unlocked, compute, computePerTap, upgrades, researchNodes
@@ -37,17 +37,17 @@ struct PlanetBoard: Codable, Identifiable {
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
-        id                       = try c.decode(String.self,         forKey: .id)
-        unlocked                 = try c.decode(Bool.self,           forKey: .unlocked)
-        compute                  = (try? c.decode(Double.self,          forKey: .compute))                   ?? 0
-        computePerTap            = (try? c.decode(Double.self,          forKey: .computePerTap))             ?? 1
-        upgrades                 = (try? c.decode([Upgrade].self,       forKey: .upgrades))                  ?? []
-        researchNodes            = (try? c.decode([ResearchNode].self,  forKey: .researchNodes))             ?? []
-        singularityShards        = (try? c.decode(Int.self,             forKey: .singularityShards))         ?? 0
-        singularityPoints        = (try? c.decode(Int.self,             forKey: .singularityPoints))         ?? 0
-        singularityUpgradeLevels = (try? c.decode([String: Int].self,  forKey: .singularityUpgradeLevels))  ?? [:]
-        lastSaveDate             = (try? c.decode(Date.self,            forKey: .lastSaveDate))              ?? Date()
-        gemMilestonesEarned      = (try? c.decode(Set<String>.self,     forKey: .gemMilestonesEarned))      ?? []
+        id                       = try c.decode(String.self,        forKey: .id)
+        unlocked                 = try c.decode(Bool.self,          forKey: .unlocked)
+        compute                  = (try? c.decode(Double.self,         forKey: .compute))                  ?? 0
+        computePerTap            = (try? c.decode(Double.self,         forKey: .computePerTap))            ?? 1
+        upgrades                 = (try? c.decode([Upgrade].self,      forKey: .upgrades))                 ?? []
+        researchNodes            = (try? c.decode([ResearchNode].self, forKey: .researchNodes))            ?? []
+        singularityShards        = (try? c.decode(Int.self,            forKey: .singularityShards))        ?? 0
+        singularityPoints        = (try? c.decode(Int.self,            forKey: .singularityPoints))        ?? 0
+        singularityUpgradeLevels = (try? c.decode([String: Int].self, forKey: .singularityUpgradeLevels)) ?? [:]
+        lastSaveDate             = (try? c.decode(Date.self,           forKey: .lastSaveDate))             ?? Date()
+        gemMilestonesEarned      = (try? c.decode(Set<String>.self,    forKey: .gemMilestonesEarned))     ?? []
     }
 
     func encode(to encoder: Encoder) throws {
@@ -65,7 +65,7 @@ struct PlanetBoard: Codable, Identifiable {
         try c.encode(gemMilestonesEarned,      forKey: .gemMilestonesEarned)
     }
 
-    // MARK: - Base values
+    // MARK: - Computed values (mirrors PlanetBoard, but shard multiplier uses base 1.5)
 
     var computePerSecond: Double {
         upgrades.reduce(0) { sum, upgrade in
@@ -73,8 +73,6 @@ struct PlanetBoard: Codable, Identifiable {
             return sum + upgrade.computePerSecond * Upgrade.singularityMultiplier(forLevel: level)
         }
     }
-
-    // MARK: - Research multipliers
 
     private var unlockedNodes: [ResearchNode] { researchNodes.filter { $0.unlocked } }
 
@@ -91,11 +89,8 @@ struct PlanetBoard: Codable, Identifiable {
         return (3 + bonusHours) * 3600
     }
 
-    // MARK: - Prestige
-
-    var shardMultiplier: Double { pow(1.1, Double(singularityShards)) }
-
-    // MARK: - Effective values
+    // Events use 1.5 base — each shard is dramatically more powerful than the planet 1.1 base.
+    var shardMultiplier: Double { pow(1.5, Double(singularityShards)) }
 
     var effectiveComputePerSecond: Double {
         computePerSecond * effectiveCPSMultiplier * shardMultiplier
@@ -109,7 +104,7 @@ struct PlanetBoard: Codable, Identifiable {
         (upgrades.first?.owned ?? 0) >= 25
     }
 
-    // MARK: - Save migration helpers
+    // MARK: - Merge helpers (same pattern as PlanetBoard)
 
     mutating func mergeUpgrades(catalog: [Upgrade]) {
         for i in upgrades.indices where i < catalog.count {

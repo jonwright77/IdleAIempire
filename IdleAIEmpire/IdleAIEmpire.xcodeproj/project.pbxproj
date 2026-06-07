@@ -30,6 +30,9 @@
 		AA01000000000002AABBCCDD /* PlanetBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA01000000000001AABBCCDD /* PlanetBoard.swift */; };
 		AA01000000000004AABBCCDD /* PlanetDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA01000000000003AABBCCDD /* PlanetDefinition.swift */; };
 		AA01000000000006AABBCCDD /* PlanetSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA01000000000005AABBCCDD /* PlanetSelectView.swift */; };
+		1E0A0002000000001FEEDDCC /* EventBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0A0001000000001FEEDDCC /* EventBoard.swift */; };
+		1E0B0002000000001FEEDDCC /* EventDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0B0001000000001FEEDDCC /* EventDefinition.swift */; };
+		1E0C0002000000001FEEDDCC /* EventBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C0001000000001FEEDDCC /* EventBoardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +79,9 @@
 		AA01000000000001AABBCCDD /* PlanetBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetBoard.swift; sourceTree = "<group>"; };
 		AA01000000000003AABBCCDD /* PlanetDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetDefinition.swift; sourceTree = "<group>"; };
 		AA01000000000005AABBCCDD /* PlanetSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetSelectView.swift; sourceTree = "<group>"; };
+		1E0A0001000000001FEEDDCC /* EventBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBoard.swift; sourceTree = "<group>"; };
+		1E0B0001000000001FEEDDCC /* EventDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDefinition.swift; sourceTree = "<group>"; };
+		1E0C0001000000001FEEDDCC /* EventBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBoardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -163,6 +169,8 @@
 				4758FC6E7FD447B9A8A08C8C /* Achievement.swift */,
 				AA01000000000001AABBCCDD /* PlanetBoard.swift */,
 				AA01000000000003AABBCCDD /* PlanetDefinition.swift */,
+				1E0A0001000000001FEEDDCC /* EventBoard.swift */,
+				1E0B0001000000001FEEDDCC /* EventDefinition.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -200,6 +208,7 @@
 				A1B2C3D4E5F64A7B8C9D0E10 /* SingularityUpgradesView.swift */,
 				B83E0CA8062B49268F8F85BE /* AchievementsView.swift */,
 				AA01000000000005AABBCCDD /* PlanetSelectView.swift */,
+				1E0C0001000000001FEEDDCC /* EventBoardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -371,6 +380,9 @@
 				AA01000000000002AABBCCDD /* PlanetBoard.swift in Sources */,
 				AA01000000000004AABBCCDD /* PlanetDefinition.swift in Sources */,
 				AA01000000000006AABBCCDD /* PlanetSelectView.swift in Sources */,
+				1E0A0002000000001FEEDDCC /* EventBoard.swift in Sources */,
+				1E0B0002000000001FEEDDCC /* EventDefinition.swift in Sources */,
+				1E0C0002000000001FEEDDCC /* EventBoardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

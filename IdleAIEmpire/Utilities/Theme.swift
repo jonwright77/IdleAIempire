@@ -18,6 +18,9 @@ extension Color {
     static let planetVenus      = Color(red: 1.00, green: 0.90, blue: 0.15)
     static let planetMercury    = Color(red: 0.80, green: 0.82, blue: 0.88)
     static let planetSun        = Color(red: 1.00, green: 0.65, blue: 0.00)
+
+    // Monthly event accent colours
+    static let eventJune        = Color(red: 0.20, green: 0.95, blue: 0.50)  // midsummer green
 }
 
 // Environment key so child views auto-receive the active planet's accent colour.
