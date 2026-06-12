@@ -33,7 +33,7 @@ They can:
 
 ---
 
-# Current State (2026-05-24)
+# Current State (2026-06-12)
 
 ## What works
 - 9 playable planets: Neptune → Uranus → Saturn → Jupiter → Mars → Earth → Venus → Mercury → The Sun
@@ -52,6 +52,11 @@ They can:
 - 17 achievements (including planet unlock milestones) with toast notifications
 - UPGRADES / RESEARCH / ASCEND / AWARDS tab bar
 - Dark futuristic UI with per-planet neon accent colours
+- **Monthly Events** (Phase 14 POC): parallel progression system, unlocks with Uranus
+  - June event "Midsummer Bloom" — 12 upgrades, 15 research, ×1.5 shard base, threshold 1e8
+  - Full EventBoardView sheet (tap, upgrades, research, ascend sub-tabs)
+  - Events earn offline and tick passively alongside planets
+- **Gems** global currency: earned at upgrade×500 (50💎) and ×1000 (100💎) on planet + event boards; displayed in planet switcher bar
 
 ## Planets
 
@@ -138,7 +143,7 @@ Each planet has its own prestige economy:
 Upgrade milestones, compute thresholds (1K → 1T), auto-tap, research, prestige, planet unlocks. Toast on unlock.
 
 ## Not yet built
-Real sound effects, visual polish, monetisation.
+Real sound effects, Gem shop, remaining 11 monthly events (July–May), monetisation.
 
 ---
 
@@ -149,9 +154,11 @@ IdleAIEmpire/
   App/
     IdleAIEmpireApp.swift         ← @main entry point
   Models/
-    GameState.swift               ← Codable top-level state: [PlanetBoard] + activePlanetIndex + achievements
+    GameState.swift               ← Codable top-level state: [PlanetBoard] + [EventBoard] + gems + achievements
     PlanetBoard.swift             ← Per-planet Codable state + all computed effective values
     PlanetDefinition.swift        ← Static catalog data for all 9 planets (upgrades, research, colors)
+    EventBoard.swift              ← Per-event Codable state (shard base ×1.5)
+    EventDefinition.swift         ← Static event catalogs (June = "Midsummer Bloom")
     Upgrade.swift                 ← Upgrade struct + Neptune catalog
     ResearchNode.swift            ← ResearchNode struct + Neptune catalog
     Achievement.swift             ← Achievement struct + 17-entry catalog
@@ -169,6 +176,7 @@ IdleAIEmpire/
     SingularityUpgradesView.swift ← Singularity point upgrades (active planet)
     PlanetSelectView.swift        ← Solar System planet picker sheet
     OfflineEarningsView.swift     ← Offline earnings popup sheet
+    EventBoardView.swift          ← Full event board UI (tap, upgrades, research, ascend)
   Utilities/
     Theme.swift                   ← Color extensions + per-planet accent colors + PlanetAccentKey env
     NumberFormatting.swift        ← Double.compactFormatted (K → Dc)
@@ -206,3 +214,5 @@ IdleAIEmpire/
 - [x] Extended number formatting (K → Dc, handles numbers to 10³³+)
 - [x] Planet Select screen with lock/progress state
 - [x] Planet-themed UI accent colours via SwiftUI environment
+- [x] Monthly Events system (parallel progression, June POC — "Midsummer Bloom")
+- [x] Gems global currency (earned at upgrade×500 and ×1000 across planet + event boards)

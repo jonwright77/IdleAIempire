@@ -5,14 +5,16 @@ struct SingularityView: View {
     let currentShards: Int
     let currentPoints: Int
     let shardBase: Double
+    let nextThreshold: Double?
     let onConfirm: () -> Void
     @Environment(\.dismiss) private var dismiss
 
-    init(planetName: String, currentShards: Int, currentPoints: Int, shardBase: Double = 1.1, onConfirm: @escaping () -> Void) {
+    init(planetName: String, currentShards: Int, currentPoints: Int, shardBase: Double = 1.1, nextThreshold: Double? = nil, onConfirm: @escaping () -> Void) {
         self.planetName = planetName
         self.currentShards = currentShards
         self.currentPoints = currentPoints
         self.shardBase = shardBase
+        self.nextThreshold = nextThreshold
         self.onConfirm = onConfirm
     }
 
@@ -47,6 +49,9 @@ struct SingularityView: View {
                     infoRow("Singularity Shards", value: "+1  →  \(newShards) total")
                     infoRow("Compute multiplier", value: "×\(String(format: "%.2f", newMultiplier))")
                     infoRow("Singularity Points", value: "+1  →  \(newPoints) to spend")
+                    if let next = nextThreshold {
+                        infoRow("Next threshold", value: next.compactFormatted)
+                    }
                 }
                 .cornerRadius(12)
                 .clipped()

@@ -61,8 +61,12 @@ final class GameViewModel: ObservableObject {
         PlanetDefinition.all[state.activePlanetIndex]
     }
 
+    var currentPrestigeThreshold: Double {
+        activePlanetDefinition.singularityThreshold * pow(1.1, Double(activePlanet.singularityShards))
+    }
+
     var canPrestige: Bool {
-        activePlanet.compute >= activePlanetDefinition.singularityThreshold
+        activePlanet.compute >= currentPrestigeThreshold
     }
 
     var canUnlockNextPlanet: Bool {
@@ -96,8 +100,12 @@ final class GameViewModel: ObservableObject {
         !state.events.isEmpty && state.events[0].unlocked
     }
 
+    var currentEventPrestigeThreshold: Double {
+        activeEventDefinition.singularityThreshold * pow(1.1, Double(activeEvent.singularityShards))
+    }
+
     var canEventPrestige: Bool {
-        isEventUnlocked && state.events[0].compute >= activeEventDefinition.singularityThreshold
+        isEventUnlocked && state.events[0].compute >= currentEventPrestigeThreshold
     }
 
     var canAffordEventResearch: Bool {

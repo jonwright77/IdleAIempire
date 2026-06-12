@@ -34,7 +34,7 @@ private struct AutoTapRing: View {
     var body: some View {
         Circle()
             .stroke(Color.neonCyan, lineWidth: 1.5)
-            .frame(width: 194, height: 194)
+            .frame(width: 148, height: 148)
             .scaleEffect(scale)
             .opacity(opacity)
             .onAppear {
@@ -65,16 +65,16 @@ struct TapButtonView: View {
                             .overlay(Circle().stroke(Color.neonCyan, lineWidth: 2))
                             .shadow(color: .neonCyan.opacity(0.5), radius: 24)
 
-                        VStack(spacing: 6) {
+                        VStack(spacing: 4) {
                             Text("⚡")
-                                .font(.system(size: 52))
+                                .font(.system(size: 38))
                             Text("+\(vm.activePlanet.effectiveComputePerTap.compactFormatted)")
                                 .font(.caption)
                                 .fontWeight(.semibold)
                                 .foregroundColor(.neonCyan)
                         }
                     }
-                    .frame(width: 180, height: 180)
+                    .frame(width: 136, height: 136)
                     .scaleEffect(scale)
                 }
                 .buttonStyle(.plain)
@@ -91,7 +91,7 @@ struct TapButtonView: View {
                     .tracking(3)
             }
         }
-        .padding(.vertical, 28)
+        .padding(.vertical, 12)
     }
 
     private func handleTap() {

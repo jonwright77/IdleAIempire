@@ -40,7 +40,8 @@ struct EventBoardView: View {
                 planetName: def.singularityName,
                 currentShards: event.singularityShards,
                 currentPoints: event.singularityPoints,
-                shardBase: 1.5
+                shardBase: 1.5,
+                nextThreshold: vm.currentEventPrestigeThreshold * 1.1
             ) {
                 vm.performEventPrestige()
             }
@@ -204,15 +205,16 @@ private struct EventTapButton: View {
                             .overlay(Circle().stroke(accent, lineWidth: 2))
                             .shadow(color: accent.opacity(0.4), radius: 24)
 
-                        VStack(spacing: 6) {
+                        VStack(spacing: 4) {
                             Text(EventDefinition.all[0].emoji)
-                                .font(.system(size: 52))
+                                .font(.system(size: 38))
                             Text("+\(vm.activeEvent.effectiveComputePerTap.compactFormatted)")
-                                .font(.caption.bold())
+                                .font(.caption)
+                                .fontWeight(.semibold)
                                 .foregroundColor(accent)
                         }
                     }
-                    .frame(width: 180, height: 180)
+                    .frame(width: 136, height: 136)
                     .scaleEffect(scale)
                 }
                 .buttonStyle(.plain)
@@ -229,7 +231,7 @@ private struct EventTapButton: View {
                     .tracking(3)
             }
         }
-        .padding(.vertical, 28)
+        .padding(.vertical, 12)
     }
 
     private func handleTap() {
@@ -257,7 +259,7 @@ private struct EventAutoRing: View {
 
     var body: some View {
         Circle().stroke(accent, lineWidth: 1.5)
-            .frame(width: 194, height: 194)
+            .frame(width: 148, height: 148)
             .scaleEffect(scale).opacity(opacity)
             .onAppear {
                 withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {

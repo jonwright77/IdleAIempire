@@ -62,7 +62,8 @@ struct ContentView: View {
             SingularityView(
                 planetName: vm.activePlanetDefinition.singularityName,
                 currentShards: vm.activePlanet.singularityShards,
-                currentPoints: vm.activePlanet.singularityPoints
+                currentPoints: vm.activePlanet.singularityPoints,
+                nextThreshold: vm.currentPrestigeThreshold * 1.1
             ) {
                 vm.performPrestige()
             }

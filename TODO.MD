@@ -154,9 +154,28 @@ Nine self-contained game boards spanning the Solar System.
 
 ---
 
-# Phase 14 — Monetisation Foundation
+# Phase 14 — Monthly Events + Gems ✅ (POC)
 
-Only start after Phase 13 is validated. Monetisation should enhance, never gate.
+A parallel progression system that runs alongside the planet loop.
+
+- [x] `EventDefinition` (static) — mirrors `PlanetDefinition`, holds per-event catalog
+- [x] `EventBoard` (Codable) — mirrors `PlanetBoard`; shard base ×1.5 (vs ×1.1 on planets)
+- [x] `GameState.events: [EventBoard]` + `GameState.gems: Int` persisted alongside planets
+- [x] June event "Midsummer Bloom": 12 upgrades, 15 research nodes, threshold 1e8
+- [x] Event unlocks when Uranus (planet[1]) is unlocked
+- [x] Event accessed via banner in ContentView → `EventBoardView` full-screen sheet
+- [x] Events earn offline (included in `applyOfflineEarnings` + `handleForeground`)
+- [x] Events tick passively in main timer regardless of which view is open
+- [x] Gems currency: 50 at upgrade×500, 100 at upgrade×1000 (planet + event boards)
+- [x] Gems displayed in planet switcher bar (💎 N)
+- [ ] Gem shop (spend gems on cosmetics or bonuses)
+- [ ] Remaining 11 monthly events (July–May)
+
+---
+
+# Phase 15 — Monetisation Foundation
+
+Only start after Phase 14 is validated. Monetisation should enhance, never gate.
 
 - [ ] Rewarded ad: ×2 compute for 30 seconds
 - [ ] Global Shard multiplier unlock via rewarded ad (cross-planet bonus, as hinted in Phase 13)
