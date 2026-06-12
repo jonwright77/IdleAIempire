@@ -38,7 +38,7 @@ final class GameViewModel: ObservableObject {
         let idx = loaded.activePlanetIndex
         let planet = loaded.planets[idx]
         let elapsed = Date().timeIntervalSince(planet.lastSaveDate)
-        let offlineAmount = planet.effectiveComputePerSecond * min(elapsed, planet.offlineCap)
+        let offlineAmount = planet.effectiveComputePerSecond * min(elapsed, planet.offlineCap) * loaded.shop.totalMultiplier
 
         Self.applyOfflineEarnings(to: &loaded)
         self.state = loaded
@@ -121,11 +121,13 @@ final class GameViewModel: ObservableObject {
     }
 
     var gems: Int { state.gems }
+    var shop: ShopState { state.shop }
+    var shopMultiplier: Double { state.shop.totalMultiplier }
 
     // MARK: - Actions
 
     func tap() {
-        activePlanet.compute += activePlanet.effectiveComputePerTap
+        activePlanet.compute += activePlanet.effectiveComputePerTap * state.shop.totalMultiplier
         checkAchievements()
     }
 
@@ -202,7 +204,7 @@ final class GameViewModel: ObservableObject {
     // MARK: - Event actions
 
     func tapEvent() {
-        activeEvent.compute += activeEvent.effectiveComputePerTap
+        activeEvent.compute += activeEvent.effectiveComputePerTap * state.shop.totalMultiplier
     }
 
     func buyEventUpgrade(id: String) {
@@ -257,6 +259,28 @@ final class GameViewModel: ObservableObject {
         activeEvent.researchNodes[index].unlocked = true
     }
 
+    // MARK: - Shop actions
+
+    func buyTimedBoost() {
+        guard state.gems >= 50, state.shop.canAddTimedBoost else { return }
+        state.gems -= 50
+        let now = Date()
+        let currentRemaining = state.shop.remainingBoostSeconds
+        let newRemaining = min(currentRemaining + 2 * 3600, 10 * 3600)
+        state.shop.boostEndDate = now.addingTimeInterval(newRemaining)
+        HapticManager.purchase()
+        save()
+    }
+
+    func buyPermanentBoost() {
+        let cost = state.shop.nextPermanentBoostCost
+        guard state.gems >= cost else { return }
+        state.gems -= cost
+        state.shop.permanentBoostCount += 1
+        HapticManager.purchase()
+        save()
+    }
+
     // MARK: - Gem helpers
 
     private func awardPlanetGems(upgradeId: String, owned: Int) {
@@ -293,15 +317,16 @@ final class GameViewModel: ObservableObject {
         guard let since = backgroundedAt else { return }
         backgroundedAt = nil
         let elapsed = Date().timeIntervalSince(since)
+        let shopMult = state.shop.totalMultiplier
         var activePlanetOffline = 0.0
         for i in state.planets.indices where state.planets[i].unlocked {
-            let offline = state.planets[i].effectiveComputePerSecond * min(elapsed, state.planets[i].offlineCap)
+            let offline = state.planets[i].effectiveComputePerSecond * min(elapsed, state.planets[i].offlineCap) * shopMult
             guard offline >= 1 else { continue }
             state.planets[i].compute += offline
             if i == state.activePlanetIndex { activePlanetOffline = offline }
         }
         for i in state.events.indices where state.events[i].unlocked {
-            let offline = state.events[i].effectiveComputePerSecond * min(elapsed, state.events[i].offlineCap)
+            let offline = state.events[i].effectiveComputePerSecond * min(elapsed, state.events[i].offlineCap) * shopMult
             guard offline >= 1 else { continue }
             state.events[i].compute += offline
         }
@@ -318,15 +343,16 @@ final class GameViewModel: ObservableObject {
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
+                let mult = self.state.shop.totalMultiplier
                 let idx = self.state.activePlanetIndex
-                self.state.planets[idx].compute += self.state.planets[idx].effectiveComputePerSecond * self.tickRate
+                self.state.planets[idx].compute += self.state.planets[idx].effectiveComputePerSecond * self.tickRate * mult
                 if self.state.planets[idx].isAutoTapping {
-                    self.state.planets[idx].compute += self.state.planets[idx].effectiveComputePerTap * self.tickRate
+                    self.state.planets[idx].compute += self.state.planets[idx].effectiveComputePerTap * self.tickRate * mult
                 }
                 for i in self.state.events.indices where self.state.events[i].unlocked {
-                    self.state.events[i].compute += self.state.events[i].effectiveComputePerSecond * self.tickRate
+                    self.state.events[i].compute += self.state.events[i].effectiveComputePerSecond * self.tickRate * mult
                     if self.state.events[i].isAutoTapping {
-                        self.state.events[i].compute += self.state.events[i].effectiveComputePerTap * self.tickRate
+                        self.state.events[i].compute += self.state.events[i].effectiveComputePerTap * self.tickRate * mult
                     }
                 }
                 self.checkEventUnlocks()
@@ -339,15 +365,16 @@ final class GameViewModel: ObservableObject {
     }
 
     private static func applyOfflineEarnings(to state: inout GameState) {
+        let shopMult = state.shop.totalMultiplier
         for i in state.planets.indices where state.planets[i].unlocked {
             let elapsed = Date().timeIntervalSince(state.planets[i].lastSaveDate)
-            let offline = state.planets[i].effectiveComputePerSecond * min(elapsed, state.planets[i].offlineCap)
+            let offline = state.planets[i].effectiveComputePerSecond * min(elapsed, state.planets[i].offlineCap) * shopMult
             guard offline >= 1 else { continue }
             state.planets[i].compute += offline
         }
         for i in state.events.indices where state.events[i].unlocked {
             let elapsed = Date().timeIntervalSince(state.events[i].lastSaveDate)
-            let offline = state.events[i].effectiveComputePerSecond * min(elapsed, state.events[i].offlineCap)
+            let offline = state.events[i].effectiveComputePerSecond * min(elapsed, state.events[i].offlineCap) * shopMult
             guard offline >= 1 else { continue }
             state.events[i].compute += offline
         }

@@ -9,6 +9,7 @@ struct ContentView: View {
     @State private var showSingularity = false
     @State private var showPlanetSelect = false
     @State private var showEvent = false
+    @State private var showShop = false
     @State private var prestigeFlashOpacity: Double = 0
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
@@ -76,6 +77,10 @@ struct ContentView: View {
         .sheet(isPresented: $showEvent) {
             EventBoardView(vm: vm)
         }
+        .sheet(isPresented: $showShop) {
+            GemShopView(vm: vm)
+                .presentationDetents([.large])
+        }
         .overlay(alignment: .top) {
             if let achievement = vm.toastAchievement {
                 AchievementToast(achievement: achievement)
@@ -95,20 +100,31 @@ struct ContentView: View {
     // MARK: - Planet switcher bar
 
     private var planetSwitcherBar: some View {
-        Button { showPlanetSelect = true } label: {
-            HStack(spacing: 8) {
-                Text(vm.activePlanetDefinition.emoji)
-                    .font(.body)
-                Text(vm.activePlanetDefinition.name.uppercased())
-                    .font(.system(size: 11, weight: .bold, design: .monospaced))
-                    .tracking(2)
-                    .foregroundColor(accent)
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 9, weight: .bold))
-                    .foregroundColor(accent.opacity(0.7))
-                Spacer()
-                if vm.isEventUnlocked || vm.gems > 0 {
+        HStack(spacing: 8) {
+            Button { showPlanetSelect = true } label: {
+                HStack(spacing: 8) {
+                    Text(vm.activePlanetDefinition.emoji)
+                        .font(.body)
+                    Text(vm.activePlanetDefinition.name.uppercased())
+                        .font(.system(size: 11, weight: .bold, design: .monospaced))
+                        .tracking(2)
+                        .foregroundColor(accent)
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundColor(accent.opacity(0.7))
+                }
+            }
+            .buttonStyle(.plain)
+
+            Spacer()
+
+            if vm.isEventUnlocked || vm.gems > 0 {
+                Button { showShop = true } label: {
                     HStack(spacing: 4) {
+                        if vm.shop.totalMultiplier > 1 {
+                            Text("⚡")
+                                .font(.system(size: 10))
+                        }
                         Text("💎")
                             .font(.caption)
                         Text("\(vm.gems)")
@@ -116,19 +132,19 @@ struct ContentView: View {
                             .foregroundColor(.neonGold)
                     }
                 }
+                .buttonStyle(.plain)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .frame(maxWidth: .infinity)
-            .background(Color.bgCard)
-            .overlay(
-                Rectangle()
-                    .frame(height: 1)
-                    .foregroundColor(accent.opacity(0.2)),
-                alignment: .bottom
-            )
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity)
+        .background(Color.bgCard)
+        .overlay(
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(accent.opacity(0.2)),
+            alignment: .bottom
+        )
     }
 
     // MARK: - Tab bar

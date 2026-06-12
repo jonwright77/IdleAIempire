@@ -6,6 +6,7 @@ struct GameState: Codable {
     var achievements: [Achievement]
     var events: [EventBoard]
     var gems: Int
+    var shop: ShopState
 
     init() {
         planets = PlanetDefinition.all.enumerated().map { i, def in
@@ -15,12 +16,13 @@ struct GameState: Codable {
         achievements = Achievement.catalog
         events = EventDefinition.all.map { def in EventBoard(definition: def, unlocked: false) }
         gems = 0
+        shop = ShopState()
     }
 
     // MARK: - Coding keys
 
     private enum CodingKeys: String, CodingKey {
-        case planets, activePlanetIndex, achievements, events, gems
+        case planets, activePlanetIndex, achievements, events, gems, shop
     }
 
     // Legacy keys present in pre-planet saves.
@@ -40,6 +42,7 @@ struct GameState: Codable {
             achievements = (try? c.decode([Achievement].self, forKey: .achievements)) ?? Achievement.catalog
             events = (try? c.decode([EventBoard].self, forKey: .events)) ?? EventDefinition.all.map { EventBoard(definition: $0, unlocked: false) }
             gems = (try? c.decode(Int.self, forKey: .gems)) ?? 0
+            shop = (try? c.decode(ShopState.self, forKey: .shop)) ?? ShopState()
         } else {
             // Old flat save — migrate Neptune's data into planets[0].
             let legacy = try decoder.container(keyedBy: LegacyKeys.self)
@@ -73,6 +76,7 @@ struct GameState: Codable {
             achievements = savedAchievements
             events = EventDefinition.all.map { EventBoard(definition: $0, unlocked: false) }
             gems = 0
+            shop = ShopState()
         }
     }
 
@@ -83,6 +87,7 @@ struct GameState: Codable {
         try c.encode(achievements, forKey: .achievements)
         try c.encode(events, forKey: .events)
         try c.encode(gems, forKey: .gems)
+        try c.encode(shop, forKey: .shop)
     }
 
     // MARK: - Merge on load (apply any catalog changes to saved data)

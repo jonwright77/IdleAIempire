@@ -48,7 +48,7 @@ They can:
 - Auto-Tapper: unlocked at 25 of the first upgrade on each planet
 - 12 buyable upgrades per planet with ×1.15 scaling costs + ×5000 milestone bonus per 100 owned
 - 10 research nodes per planet, linear unlock, permanent multipliers
-- Prestige / Singularity per planet: shard multiplier (×1.1^shards) on all production
+- Prestige / Singularity per planet: shard multiplier (×1.1^shards) on all production; **threshold scales ×1.1 per shard earned** to keep progression challenging
 - 17 achievements (including planet unlock milestones) with toast notifications
 - UPGRADES / RESEARCH / ASCEND / AWARDS tab bar
 - Dark futuristic UI with per-planet neon accent colours
@@ -56,7 +56,11 @@ They can:
   - June event "Midsummer Bloom" — 12 upgrades, 15 research, ×1.5 shard base, threshold 1e8
   - Full EventBoardView sheet (tap, upgrades, research, ascend sub-tabs)
   - Events earn offline and tick passively alongside planets
-- **Gems** global currency: earned at upgrade×500 (50💎) and ×1000 (100💎) on planet + event boards; displayed in planet switcher bar
+  - Event singularity threshold also scales ×1.1 per shard
+- **Gems** global currency: earned at upgrade×500 (50💎) and ×1000 (100💎) on planet + event boards; displayed in planet switcher bar (tapping opens Gem Shop)
+- **Gem Shop**: two purchasable boosts that stack multiplicatively
+  - *Neural Overdrive* (timed): 50💎 per 2 hours of 2× earnings, stackable up to 10 hours max
+  - *Synthetic Ascension* (permanent): 1,000💎 for first 2× permanent multiplier; cost doubles each purchase (2,000 / 4,000 / …); stacks multiplicatively (3 purchases = ×8)
 
 ## Planets
 
@@ -119,10 +123,12 @@ Every 100 of an upgrade owned applies a ×5000 multiplier to that upgrade's CPS 
 
 ## Prestige (Singularity)
 Each planet has its own prestige economy:
-- Threshold scales ×50 per planet (Neptune: 1T → Sun: ~39 Sp)
-- Award: 1 Singularity Shard per prestige (per planet)
+- Base threshold scales ×50 per planet (Neptune: 1T → Sun: ~39 Sp)
+- **Each prestige raises the next threshold by ×1.1** (`base × 1.1^shards`), keeping progression meaningful
+- Award: 1 Singularity Shard + 1 Singularity Point per prestige (per planet)
 - Multiplier: ×1.1^shards applied to all production on that planet
-- Resets: upgrades + compute. Keeps: research nodes, shards
+- Resets: upgrades + compute. Keeps: research nodes, shards, singularity upgrades
+- SingularityView shows the next threshold before confirming
 
 ## Number Formatting
 | Suffix | Value |
@@ -143,7 +149,7 @@ Each planet has its own prestige economy:
 Upgrade milestones, compute thresholds (1K → 1T), auto-tap, research, prestige, planet unlocks. Toast on unlock.
 
 ## Not yet built
-Real sound effects, Gem shop, remaining 11 monthly events (July–May), monetisation.
+Real sound effects, remaining 11 monthly events (July–May), monetisation.
 
 ---
 
@@ -154,11 +160,12 @@ IdleAIEmpire/
   App/
     IdleAIEmpireApp.swift         ← @main entry point
   Models/
-    GameState.swift               ← Codable top-level state: [PlanetBoard] + [EventBoard] + gems + achievements
+    GameState.swift               ← Codable top-level state: [PlanetBoard] + [EventBoard] + gems + shop + achievements
     PlanetBoard.swift             ← Per-planet Codable state + all computed effective values
     PlanetDefinition.swift        ← Static catalog data for all 9 planets (upgrades, research, colors)
     EventBoard.swift              ← Per-event Codable state (shard base ×1.5)
     EventDefinition.swift         ← Static event catalogs (June = "Midsummer Bloom")
+    ShopState.swift               ← Codable shop state: timed boost expiry + permanent boost count
     Upgrade.swift                 ← Upgrade struct + Neptune catalog
     ResearchNode.swift            ← ResearchNode struct + Neptune catalog
     Achievement.swift             ← Achievement struct + 17-entry catalog
@@ -177,6 +184,7 @@ IdleAIEmpire/
     PlanetSelectView.swift        ← Solar System planet picker sheet
     OfflineEarningsView.swift     ← Offline earnings popup sheet
     EventBoardView.swift          ← Full event board UI (tap, upgrades, research, ascend)
+    GemShopView.swift             ← Gem shop sheet (Neural Overdrive timed boost + Synthetic Ascension permanent boost)
   Utilities/
     Theme.swift                   ← Color extensions + per-planet accent colors + PlanetAccentKey env
     NumberFormatting.swift        ← Double.compactFormatted (K → Dc)
@@ -216,3 +224,5 @@ IdleAIEmpire/
 - [x] Planet-themed UI accent colours via SwiftUI environment
 - [x] Monthly Events system (parallel progression, June POC — "Midsummer Bloom")
 - [x] Gems global currency (earned at upgrade×500 and ×1000 across planet + event boards)
+- [x] Scaling singularity thresholds (×1.1 per shard, planets + events)
+- [x] Gem Shop (Neural Overdrive timed 2× boost, Synthetic Ascension permanent 2× boost)

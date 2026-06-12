@@ -33,6 +33,8 @@
 		1E0A0002000000001FEEDDCC /* EventBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0A0001000000001FEEDDCC /* EventBoard.swift */; };
 		1E0B0002000000001FEEDDCC /* EventDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0B0001000000001FEEDDCC /* EventDefinition.swift */; };
 		1E0C0002000000001FEEDDCC /* EventBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C0001000000001FEEDDCC /* EventBoardView.swift */; };
+		AA02000000000002AABBCCDD /* ShopState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02000000000001AABBCCDD /* ShopState.swift */; };
+		AA03000000000002AABBCCDD /* GemShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA03000000000001AABBCCDD /* GemShopView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,8 @@
 		1E0A0001000000001FEEDDCC /* EventBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBoard.swift; sourceTree = "<group>"; };
 		1E0B0001000000001FEEDDCC /* EventDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDefinition.swift; sourceTree = "<group>"; };
 		1E0C0001000000001FEEDDCC /* EventBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBoardView.swift; sourceTree = "<group>"; };
+		AA02000000000001AABBCCDD /* ShopState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopState.swift; sourceTree = "<group>"; };
+		AA03000000000001AABBCCDD /* GemShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemShopView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -171,6 +175,7 @@
 				AA01000000000003AABBCCDD /* PlanetDefinition.swift */,
 				1E0A0001000000001FEEDDCC /* EventBoard.swift */,
 				1E0B0001000000001FEEDDCC /* EventDefinition.swift */,
+				AA02000000000001AABBCCDD /* ShopState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 				B83E0CA8062B49268F8F85BE /* AchievementsView.swift */,
 				AA01000000000005AABBCCDD /* PlanetSelectView.swift */,
 				1E0C0001000000001FEEDDCC /* EventBoardView.swift */,
+				AA03000000000001AABBCCDD /* GemShopView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -383,6 +389,8 @@
 				1E0A0002000000001FEEDDCC /* EventBoard.swift in Sources */,
 				1E0B0002000000001FEEDDCC /* EventDefinition.swift in Sources */,
 				1E0C0002000000001FEEDDCC /* EventBoardView.swift in Sources */,
+				AA02000000000002AABBCCDD /* ShopState.swift in Sources */,
+				AA03000000000002AABBCCDD /* GemShopView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
