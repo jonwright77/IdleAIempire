@@ -33,7 +33,7 @@ They can:
 
 ---
 
-# Current State (2026-06-12)
+# Current State (2026-06-16)
 
 ## What works
 - 9 playable planets: Neptune → Uranus → Saturn → Jupiter → Mars → Earth → Venus → Mercury → The Sun
@@ -113,13 +113,19 @@ All planets share the same effect structure:
 All 10 unlocked: ×112.5 CPS · ×12,000 per tap · 16h offline cap (per planet).
 
 ## Upgrade Milestones
-Every 100 of an upgrade owned applies a ×5000 multiplier to that upgrade's CPS (stacking):
+Every 100 of an upgrade owned applies a ×5,000 multiplier to that upgrade's CPS (stacking multiplicatively):
 
 | Owned | Multiplier |
 |-------|-----------|
 | 100 | ×5,000 |
-| 200 | ×25,000,000 |
-| 300 | ×125,000,000,000 |
+| 200 | ×25M |
+| 300 | ×125B |
+| 400 | ×625T |
+| 500 | ×3.13Qa |
+| 600 | ×15.6Qi |
+| 700+ | continues to scale |
+
+The milestone badge in the upgrade row uses `compactFormatted` — do **not** cast to `Int` as values exceed `Int.max` from milestone 6 onward (`5000^6 ≈ 1.56 × 10²²`).
 
 ## Prestige (Singularity)
 Each planet has its own prestige economy:
@@ -131,6 +137,8 @@ Each planet has its own prestige economy:
 - SingularityView shows the next threshold before confirming
 
 ## Number Formatting
+Implemented in `Double.compactFormatted`. Handles `inf` and `NaN` safely. Falls back to scientific notation (`1.23e45`) beyond Vg.
+
 | Suffix | Value |
 |--------|-------|
 | K | 10³ |
@@ -144,6 +152,17 @@ Each planet has its own prestige economy:
 | Oc | 10²⁷ |
 | No | 10³⁰ |
 | Dc | 10³³ |
+| UDc | 10³⁶ |
+| DDc | 10³⁹ |
+| TDc | 10⁴² |
+| QaDc | 10⁴⁵ |
+| QiDc | 10⁴⁸ |
+| SxDc | 10⁵¹ |
+| SpDc | 10⁵⁴ |
+| OcDc | 10⁵⁷ |
+| NoDc | 10⁶⁰ |
+| Vg | 10⁶³ |
+| 1.23e66+ | scientific notation |
 
 ## Achievements (17)
 Upgrade milestones, compute thresholds (1K → 1T), auto-tap, research, prestige, planet unlocks. Toast on unlock.
@@ -187,7 +206,7 @@ IdleAIEmpire/
     GemShopView.swift             ← Gem shop sheet (Neural Overdrive timed boost + Synthetic Ascension permanent boost)
   Utilities/
     Theme.swift                   ← Color extensions + per-planet accent colors + PlanetAccentKey env
-    NumberFormatting.swift        ← Double.compactFormatted (K → Dc)
+    NumberFormatting.swift        ← Double.compactFormatted (K → Vg → scientific notation; inf/NaN safe)
     PersistenceManager.swift      ← UserDefaults save/load
     HapticManager.swift           ← Haptic feedback
 ```
@@ -219,7 +238,7 @@ IdleAIEmpire/
 - [x] Achievements (17, toast on unlock, AWARDS screen)
 - [x] Upgrade milestone bonuses (×5000 per 100 owned, stacking)
 - [x] Multi-planet system (9 planets, sequential unlock, per-planet economies)
-- [x] Extended number formatting (K → Dc, handles numbers to 10³³+)
+- [x] Extended number formatting (K → Vg → scientific notation, handles numbers beyond 10⁶³; inf/NaN safe)
 - [x] Planet Select screen with lock/progress state
 - [x] Planet-themed UI accent colours via SwiftUI environment
 - [x] Monthly Events system (parallel progression, June POC — "Midsummer Bloom")

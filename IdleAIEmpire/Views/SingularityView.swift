@@ -47,7 +47,7 @@ struct SingularityView: View {
                 // What you earn
                 VStack(spacing: 1) {
                     infoRow("Singularity Shards", value: "+1  →  \(newShards) total")
-                    infoRow("Compute multiplier", value: "×\(String(format: "%.2f", newMultiplier))")
+                    infoRow("Compute multiplier", value: "×\(newMultiplier.compactFormatted)")
                     infoRow("Singularity Points", value: "+1  →  \(newPoints) to spend")
                     if let next = nextThreshold {
                         infoRow("Next threshold", value: next.compactFormatted)

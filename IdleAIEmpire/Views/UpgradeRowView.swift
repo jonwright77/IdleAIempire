@@ -32,7 +32,7 @@ struct UpgradeRowView: View {
                     }
 
                     if upgrade.milestones > 0 {
-                        Text("★ ×\(Int(upgrade.milestoneMultiplier))")
+                        Text("★ ×\(upgrade.milestoneMultiplier.compactFormatted)")
                             .font(.caption2.bold())
                             .foregroundColor(.neonGold)
                             .padding(.horizontal, 6)

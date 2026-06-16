@@ -107,7 +107,7 @@ struct EventBoardView: View {
             if event.singularityShards > 0 {
                 HStack(spacing: 6) {
                     Text("◈ \(event.singularityShards) SHARDS")
-                    Text("×\(String(format: "%.2f", event.shardMultiplier))")
+                    Text("×\(event.shardMultiplier.compactFormatted)")
                 }
                 .font(.system(size: 11, weight: .semibold, design: .monospaced))
                 .foregroundColor(.neonPurple.opacity(0.8))

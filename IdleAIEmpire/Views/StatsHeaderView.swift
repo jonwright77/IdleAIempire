@@ -24,7 +24,7 @@ struct StatsHeaderView: View {
             if vm.activePlanet.singularityShards > 0 {
                 HStack(spacing: 6) {
                     Text("◈ \(vm.activePlanet.singularityShards) SHARDS")
-                    Text("×\(String(format: "%.2f", vm.activePlanet.shardMultiplier))")
+                    Text("×\(vm.activePlanet.shardMultiplier.compactFormatted)")
                 }
                 .font(.system(size: 11, weight: .semibold, design: .monospaced))
                 .foregroundColor(.neonPurple.opacity(0.8))
